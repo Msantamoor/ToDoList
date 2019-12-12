@@ -1,26 +1,75 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import ListDisplay from './Components/ListDisplay';
+//import ListTable from './Components/ListTable';
+import Axios from 'axios'
+//import {ActiveList} from './Components/Context';
+import { Redirect } from 'react-router';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+
+
+
+class App extends Component {
+constructor(props){
+  super(props)
+  this.clickHandler = this.clickHandler.bind(this)
+}
+
+state = {
+  selection: "",
+  listCollection: []
+  
+}
+
+
+
+  onSubmit = () => {
+    Axios.get('http://localhost:3306/lists')
+        .then(res => {
+            console.log(res)
+            this.setState({ listCollection: res.data.data });
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+};
+
+
+  componentDidMount(){
+  this.onSubmit()
+  }
+
+  clickHandler(name) {
+    console.log(name)
+    this.setState({ selection: name})
+    this.setState({redirect: true});
+  }
+
+
+
+  render() {
+    if (this.state.redirect) {
+      return <Redirect push to={{
+        pathname: '/Components/CreateTaskForm.js',
+        state: {
+          selection: this.state.selection
+        }
+      }}/>
+    }
+    
+    
+
+    return (
+      <div className="App">
+
+        
+        <ListDisplay listCollection={this.state.listCollection} clickHandler={this.clickHandler}/>
+        
+      </div>
+    );
+  }
 }
 
 export default App;
