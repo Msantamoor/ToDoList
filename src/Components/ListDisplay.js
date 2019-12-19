@@ -13,7 +13,6 @@ export default class ListDisplay extends Component {
         return this.props.listCollection.map((data, i) => {
             return <ListTable obj={data} key={i} clickHandler={this.props.clickHandler} />;
         });
-    
     }
 
 

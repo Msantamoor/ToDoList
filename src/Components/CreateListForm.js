@@ -1,5 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
+import { AuthContext } from '../Context/Context';
+import { Redirect } from 'react-router';
 
 
 export default class CLForm extends React.Component{
@@ -42,7 +44,10 @@ export default class CLForm extends React.Component{
 
     
     render () {
-        
+        if(this.context.isAuthenticated === false){
+            return <Redirect push to={'/Components/SignInForm.js'}/>
+        }
+
         return(
             
             <form>
@@ -80,3 +85,4 @@ export default class CLForm extends React.Component{
     }
 
 }
+CLForm.contextType = AuthContext

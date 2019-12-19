@@ -1,0 +1,49 @@
+[filled=good] {
+    border: 1px solid green;
+}
+
+[taken=true] {
+    border: 1px solid orange;
+}
+
+.good{
+    border: 1px solid green;
+}
+
+#Ready{
+    display: contents;
+    color: green;
+}
+
+.error{
+    border: 1px solid orange;
+}
+
+.hidden-messages{
+    display: none;
+}
+
+#username-err{
+    display: contents;
+    /* color: red; */
+}
+
+#username-taken{
+    display: contents;
+}
+
+#email-err{
+    display: contents;
+    /* color: red; */
+}
+
+#password-err{
+    display: contents;
+    /* color: red; */
+}
+
+#cpassword-err{
+    display: contents;
+    /* color: red; */
+}
+

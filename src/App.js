@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 import ListDisplay from './Components/ListDisplay';
-//import ListTable from './Components/ListTable';
 import Axios from 'axios'
-//import {ActiveList} from './Components/Context';
 import { Redirect } from 'react-router';
-
-
-
-
-
+import { AuthContext } from './Context/Context.js';
+import CUForm from './Components/CreateUserForm';
 
 class App extends Component {
 constructor(props){
@@ -19,11 +14,10 @@ constructor(props){
 
 state = {
   selection: "",
-  listCollection: []
+  listCollection: [],
+  loggedIn: false
   
 }
-
-
 
   onSubmit = () => {
     Axios.get('http://localhost:3306/lists')
@@ -44,12 +38,13 @@ state = {
   clickHandler(name) {
     console.log(name)
     this.setState({ selection: name})
-    this.setState({redirect: true});
+    this.setState({ redirect: true });
   }
 
 
 
   render() {
+
     if (this.state.redirect) {
       return <Redirect push to={{
         pathname: '/Components/CreateTaskForm.js',
@@ -58,18 +53,19 @@ state = {
         }
       }}/>
     }
-    
-    
 
+    // if(this.props.location.state === undefined){
+    //   return <Redirect push to={'/Components/SignInForm.js'}/>
+    // }else{
     return (
-      <div className="App">
+      <div>
 
-        
         <ListDisplay listCollection={this.state.listCollection} clickHandler={this.clickHandler}/>
         
       </div>
     );
+    }
   }
-}
+
 
 export default App;

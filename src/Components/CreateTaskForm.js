@@ -1,7 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 import TaskDisplay from './TaskDisplay';
-
+import {Redirect} from 'react-router';
 
 
 
@@ -13,7 +13,6 @@ export default class CTForm extends React.Component{
             name: "",
             desc: "",
             due: "",
-            selection: "",
             taskCollection: []
         };
 
@@ -60,7 +59,6 @@ export default class CTForm extends React.Component{
             due: this.state.due,
             list: selection
         }
-
         Axios.post('http://localhost:3306/tasks', task)
         .then((res) => {
             console.log(res.data)
@@ -77,8 +75,15 @@ export default class CTForm extends React.Component{
         this.refreshTasks()
     }
 
+    componentDidMount(){
+        this.refreshTasks()
+    }
+
     
     render () {
+        if(this.context === false){
+            return <Redirect push to={"/Components/CreateUserForm.js"}/>
+          }
         return(
             <div>
             <form>
@@ -108,7 +113,7 @@ export default class CTForm extends React.Component{
                 <button onClick={e => this.onSubmit(e)}>Add Task</button>
                 
             </form>
-            <button onClick={() => this.refreshTasks()}>Refresh</button>
+            {/* <button onClick={() => this.refreshTasks()}>Refresh</button> */}
             <TaskDisplay taskCollection={this.state.taskCollection}/>
             </div>
             
