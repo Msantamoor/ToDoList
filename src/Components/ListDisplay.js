@@ -5,13 +5,23 @@ export default class ListDisplay extends Component {
 
     constructor(props){
         super(props);
-        this.state = { listCollection: [] };
+        this.state = { 
+            listCollection: [], 
+            clickedLists: [],
+            clickedButtons: []
+        
+        };
     }
 
 
     listTable = () => {
         return this.props.listCollection.map((data, i) => {
-            return <ListTable obj={data} key={i} clickHandler={this.props.clickHandler} />;
+            return <ListTable obj={data} key={i} clickHandler={this.props.clickHandler} 
+            editMenu={this.props.editMenu} 
+            isClicked={this.props.isClicked} clickedLists={this.props.clickedLists} 
+            deleteOneList={this.props.deleteOneList}
+            clickedButtons={this.props.clickedButtons} buttonClicked={this.props.buttonClicked}
+            unavailableLists={this.props.unavailableLists} />;
         });
     }
 
@@ -22,7 +32,7 @@ export default class ListDisplay extends Component {
         
         return(
             <div className="ListDisplayer">
-                <table className="listTable">
+                <table className="taskDisplayer">
                 <thead>
                         <tr>
                             <td>Name</td>

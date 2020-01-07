@@ -1,9 +1,10 @@
 import React from 'react';
-import '/Users/morgansantamoor/Helio/Projects/to-do-list/src/form.css'
+import '../form.css'
 import Axios from 'axios';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../Context/Context';
+import '../App';
+import { AuthContext } from '../Context/Authentication';
 
 
 function validate(username, password) {
@@ -19,12 +20,13 @@ export default class SIForm extends React.Component {
             state = { 
             username: "", 
             password: "",
-            loggedIn: false,
 
             touched: {
                 username: false, 
                 password: false
-            }
+            },
+
+            attempt: true
         }
 
     change = e => {
@@ -52,11 +54,20 @@ export default class SIForm extends React.Component {
             console.log(res)
             if(res.data === true){
                 console.log('Password matches')
-                this.setState({ 
-
-                loggedIn: true
-            })
+                this.context.authenticate()
+                this.setState({ attempt: true})
+                this.setState({ redirect: true})
             } else {
+                this.setState({
+                    username: "", 
+                    password: "",
+
+                touched: {
+                    username: false, 
+                    password: false
+                }
+                })
+                this.setState({ attempt: false})
                 console.log(`Matching Failed ${this.state.password}`)
             }
         })
@@ -64,23 +75,23 @@ export default class SIForm extends React.Component {
             console.log(error);
         })
        
-            
-
     }
 
     render(){
 
-        if(this.state.loggedIn){
+        if(this.state.redirect){
             console.log('login successful')
-           return ( <Redirect push to={{
-               pathname: '/',
-           state: {
-            username: this.state.username,
-            loggedIn: this.state.loggedIn
-           }
-        }}/>
+            return(
+            <AuthContext.Consumer>
+            {({identify}) => (
+                <Redirect push={identify(this.state.username, this.context.state.activeList)} to={'/Select'}/>
+            )}
+            </AuthContext.Consumer>
             )
-        }
+            }
+    
+        
+        
 
         var errors = validate(this.state.username, this.state.password);        
         const isEnabled = !Object.keys(errors).some(x => errors[x]);
@@ -114,7 +125,7 @@ export default class SIForm extends React.Component {
                 onChange={e => this.change(e)}
                 />
                 <br/>
-                <p className="hidden-messages" id={showErr('fname') ? "fname-err" : ""}>Enter Username</p>
+                <p className={showErr('username') ? "shown-messages" : "hidden-messages"}>Enter Username</p>
                 <br/>
                 <input 
                 name="password"
@@ -127,14 +138,16 @@ export default class SIForm extends React.Component {
                 onChange={e => this.change(e)}
                 />
                 <br/>
-                <p className="hidden-messages" id={showErr('password') ? "password-err" : ""}></p>
+                <p className={showErr('password') ? "shown-messages" : "hidden-messages"}>Enter Password</p>
                 <br/>
-                <p className="hidden-messages" id={isEnabled ? "Ready" : ""}>Ready to submit</p>
+                <p className={this.state.attempt ? "hidden-messages" : "shown-messages"}>Sign-In Failed</p>
                 <br/>
+                
                 <button disabled={!isEnabled} onClick={e => this.onSubmit(e)}>Sign-In</button>
             </form>
-            <p>New User?</p> <Link to="/Components/CreateUserForm.js">Create Account</Link>
+            <p>New User?</p> <Link to="/CUForm">Create Account</Link>
             </div>
         )
     }
 }
+SIForm.contextType = AuthContext;

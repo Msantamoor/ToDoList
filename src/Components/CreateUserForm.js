@@ -1,11 +1,11 @@
 import React from 'react';
-import '/Users/morgansantamoor/Helio/Projects/to-do-list/src/form.css'
+import '../form.css'
 import Axios from 'axios'
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
 
-function validate(username, email, password, cpassword, usedname) {
+function validate(username, email, password, cpassword) {
     return {
         username: username.length === 0,
         email: email.length === 0,
@@ -17,7 +17,7 @@ function validate(username, email, password, cpassword, usedname) {
 
 export default class CUForm extends React.Component {
     state = {
-        username: "", 
+        username: "",
         email: "",
         password: "",
         cpassword: "",
@@ -29,7 +29,8 @@ export default class CUForm extends React.Component {
             cpassword: false,
         },
 
-        unavailable: []
+        unavailableUsers: [],
+        unavailableEmails: []
     };
 
     change = e => {
@@ -59,45 +60,60 @@ export default class CUForm extends React.Component {
         .then(res => {
             console.log(res)
             if(res.data === true){
-                console.log('Username Available')
-                Axios.post('http://localhost:3306/users', user)
-                .then((res) => {
-                    console.log(res.data)
-                }).catch((error) => {
-                    console.log(error)
-                });
-                this.setState({
-                    username: "",
-                    email: "",
-                    password: "",
-                    cpassword: "",
-
-                    touched: {
-                        username: false,  
-                        email: false,
-                        password: false,
-                        cpassword: false,
-                    }
-
-                })
-                this.setState({ redirect: true})
-            } else {
-                this.state.unavailable.push(this.state.username)
+            (Axios.get('http://localhost:3306/textcolor', {
+                params: {
+                    email: this.state.email
+                }
+            })
+            .then((res) => {
+                console.log(res)
+                if(res.data === true){
+                    console.log(`Email ${this.state.email} Available`)
+                    Axios.post('http://localhost:3306/users', user)
+                    .then((res) => {
+                        console.log(res.data)
+                    }).catch((error) => {
+                        console.log(error)
+                    });
+                    this.setState({
+                        username: "",
+                        email: "",
+                        password: "",
+                        cpassword: "",
+    
+                        touched: {
+                            username: false,  
+                            email: false,
+                            password: false,
+                            cpassword: false,
+                        }
+    
+                    })
+                    this.setState({ redirect: true})
+                } else if(res.data === false){
+                    this.state.unavailableEmails.push(this.state.email)
+                    this.setState({email: this.state.email})
+                    console.log(`Email ${this.state.email} is already in use`)
+                }
+            }).catch((error) => {
+                console.log(error)
+            }))
+             
+            } else if(res.data === false){
+                this.state.unavailableUsers.push(this.state.username)
                 this.setState({username: this.state.username})
                 console.log(`Username ${this.state.username} is unavailable`)
             }
-        })
+        }) 
         .catch(function(error){
             console.log(error);
         })
-        
-        
 
     }
 
     render(){
         if (this.state.redirect) {
-            return <Redirect push to={ '/Components/SignInForm.js' }/>
+            return <Redirect push to={ '/' }/>
           }
 
         var errors = validate(this.state.username, this.state.email, this.state.password, this.state.cpassword);        
@@ -125,27 +141,29 @@ export default class CUForm extends React.Component {
                 name="username" 
                 className={showErr('username') ? "error" : ""}
                 filled={showValid('username') ? "good" : ""}
-                taken={this.state.unavailable.includes(this.state.username) ? "true" : ""}
+                taken={this.state.unavailableUsers.includes(this.state.username) ? "true" : ""}
                 onBlur={this.handleBlur('username')}
                 placeholder="Username"
                 value={this.state.username} 
                 onChange={e => this.change(e)}
                 />
                 <br/>
-                <p className="hidden-messages" id={this.state.unavailable.includes(this.state.username) ? "username-taken" : ""}> Username unavailable</p>
-                <p className="hidden-messages" id={showErr('username') ? "username-err" : ""}> Enter Username</p>
+                <p className={this.state.unavailableUsers.includes(this.state.username) ? "shown-messages" : "hidden-messages"}> Username unavailable</p>
+                <p className={showErr('username') ? "shown-messages" : "hidden-messages"}> Enter Username</p>
                 <br/>
                 <input 
                 name="email"
                 className={showErr('email') ? "error" : ""}
                 filled={showValid('email') ? "good" : ""}
+                taken={this.state.unavailableEmails.includes(this.state.email) ? "true" : ""}
                 onBlur={this.handleBlur('email')}
                 placeholder="Email Address" 
                 value={this.state.email} 
                 onChange={e => this.change(e)}
                 />
                 <br/>
-                <p className="hidden-messages" id={showErr('email') ? "email-err" : ""}> Enter a valid Email address</p>
+                <p className={this.state.unavailableEmails.includes(this.state.email) ? "shown-messages" : "hidden-messages"}> Email already in use, try Signing In</p>
+                <p className={showErr('email') ? "shown-messages" : "hidden-messages"}> Enter a valid Email address</p>
                 <br/>
                 <input 
                 name="password"
@@ -158,7 +176,7 @@ export default class CUForm extends React.Component {
                 onChange={e => this.change(e)}
                 />
                 <br/>
-                <p className="hidden-messages" id={showErr('password') ? "password-err" : ""}>Enter a good password</p>
+                <p className={showErr('password') ? "shown-messages" : "hidden-messages"}>Enter a good password</p>
                 <br/>
                 <input 
                 name="cpassword"
@@ -171,14 +189,14 @@ export default class CUForm extends React.Component {
                 onChange={e => this.change(e)}
                 />
                 <br/>
-                <p className="hidden-messages" id={showErr('cpassword') ? "cpassword-err" : ""}>Passwords must match</p>
+                <p className={showErr('cpassword') ? "shown-messages" : "hidden-messages"}>Passwords must match</p>
                 <br/>
-                <p className="hidden-messages" id={isEnabled ? "Ready" : ""}>Ready to submit</p>
+                <p className={isEnabled ? "shown-messages" : "hidden-messages"}>Ready to submit</p>
                 <br/>
                 <button disabled={!isEnabled} onClick={e => this.onSubmit(e)}>Create Account</button>
                 
             </form>
-            <p>already have an account?</p><Link to="/Components/SignInForm.js">Sign-in</Link>
+            <p>Already have an account?</p><Link to="/">Sign-in</Link>
             </div>
             
         )

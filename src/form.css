@@ -1,13 +1,13 @@
 [filled=good] {
-    border: 1px solid green;
+    border: .1em solid green;
 }
 
 [taken=true] {
-    border: 1px solid orange;
+    border: .1em solid orange;
 }
 
 .good{
-    border: 1px solid green;
+    border: .1em solid green;
 }
 
 #Ready{
@@ -16,34 +16,82 @@
 }
 
 .error{
-    border: 1px solid orange;
+    border: .1em solid orange;
 }
 
 .hidden-messages{
     display: none;
 }
 
-#username-err{
-    display: contents;
-    /* color: red; */
-}
-
-#username-taken{
+.shown-messages{
     display: contents;
 }
 
-#email-err{
-    display: contents;
-    /* color: red; */
+.rowClicked{
+    display: inline-flexbox;
+    border: .1em solid lightblue;
+    border-radius: 1em;
 }
 
-#password-err{
-    display: contents;
-    /* color: red; */
+.rowNotClicked{
+    display: inline-flexbox;
+    border: .1em solid gray;
+    border-radius: 1em;
 }
 
-#cpassword-err{
-    display: contents;
-    /* color: red; */
+
+.Clicked{
+    display: inline-flexbox;
+    border: .1em solid lightblue;
+    border-radius: 1em;
 }
 
+.notClicked{
+    display: none;
+}
+
+.buttonClicked{
+    display: inline-flexbox;
+}
+
+[completed=rowCompleted]{
+    display: inline-flexbox;
+    text-emphasis: fade;
+    border: .2em solid green;
+    border-radius: 1em;
+}
+
+
+
+
+.deletebutton{
+    display: inline-flexbox;
+    fill: red;
+    color: white;
+    border: .1em solid red;
+    border-radius: 1em;
+    background-color: red;
+}
+
+[deletable=true]{
+    display: inline-flexbox;
+    fill: solid red;
+    border: .1em solid red;
+    border-radius: 1em;
+
+}
+
+[shown=hidden]{
+    display: none;
+}
+
+[shown=show]{
+    display: inline-flexbox;
+    border: .1em solid lightblue;
+    border-radius: 1em;
+}
+
+.taskDiplayer{
+    display: inline-flexbox;
+    align-content: center;
+}

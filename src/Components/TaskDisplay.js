@@ -1,36 +1,49 @@
 import React, { Component } from 'react';
 import TaskTable from './TaskTable.js'
+import '../form.css'
+
 
 export default class TaskDisplay extends Component {
 
     constructor(props){
         super(props);
-        this.state = { taskCollection: [] };
+        this.state = { 
+            taskCollection: [],
+            clickedTasks: [],
+            completedTasks: [],
+            clickedButtons: [],
+            unavailableTasks: []
+        };
     }
 
 
     taskTable = () => {
         return this.props.taskCollection.map((data, i) => {
-            return <TaskTable obj={data} key={i} />;
+            return <TaskTable obj={data} key={i}
+            editMenu={this.props.editMenu} 
+            isClicked={this.props.isClicked} clickedTasks={this.props.clickedTasks} 
+            isCompleted={this.props.isCompleted} completedTasks={this.props.completedTasks}
+            deleteOneTask={this.props.deleteOneTask}
+            clickedButtons={this.props.clickedButtons} buttonClicked={this.props.buttonClicked}
+            unavailableTasks={this.props.unavailableTasks}
+            
+            />;
         });
     }
 
     render(){
-        console.log('taskrender')
         const taskTable = this.taskTable()
+
+
         return(
-            <div className="taskDisplayer">
-                <table className="taskTable">
+            <div className="">
+                <table className="taskDisplayer">
                     <thead>
-                        <tr>
-                            <td>Name</td>
-                            <td>Description</td>
-                            <td>Time</td>
-                        </tr>
                     </thead>
                     <tbody>
                         {taskTable}
                     </tbody>
+                    
                 </table>
 
             </div>

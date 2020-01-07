@@ -1,71 +1,60 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import ListDisplay from './Components/ListDisplay';
-import Axios from 'axios'
-import { Redirect } from 'react-router';
-import { AuthContext } from './Context/Context.js';
-import CUForm from './Components/CreateUserForm';
+import './form.css';
+import './Components/SignInForm';
+import './Components/CreateTaskForm'
+import { Links } from './Components/Navigation/Links'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { AuthContext } from './Context/Authentication'
 
-class App extends Component {
-constructor(props){
-  super(props)
-  this.clickHandler = this.clickHandler.bind(this)
-}
+import Main from './Pages/index'
+import SignOut from './Components/Navigation/SignOut';
 
-state = {
-  selection: "",
-  listCollection: [],
-  loggedIn: false
+function App(){
+  const [isAuthenticated, setAuthenticated] = useState(false)
+  const [state, setState] = useState({
+    userLogged: "",
+    activeList: ""
+})
+
+  const authenticate = () => {
+    setAuthenticated(true)
+  }
+
+  const signout = () => {
+    setAuthenticated(false)
+  }
+
+  const identify = (user, list) => {
+    console.log(user)
+    console.log(list)
+    setState({ userLogged: user, activeList: list })
+  }
   
+  
+
+  const store = {
+    isAuthenticated,
+    state,
+    authenticate,
+    signout,
+    identify
+  }
+
+
+  return (
+    <div className="App">
+      
+      <AuthContext.Provider value={store}>
+            <Router>
+            <SignOut/>
+            <Links />
+            <Main/>
+            </Router> 
+      </AuthContext.Provider>
+    </div>
+  );
 }
-
-  onSubmit = () => {
-    Axios.get('http://localhost:3306/lists')
-        .then(res => {
-            console.log(res)
-            this.setState({ listCollection: res.data.data });
-        })
-        .catch(function(error){
-            console.log(error);
-        })
-};
-
-
-  componentDidMount(){
-  this.onSubmit()
-  }
-
-  clickHandler(name) {
-    console.log(name)
-    this.setState({ selection: name})
-    this.setState({ redirect: true });
-  }
-
-
-
-  render() {
-
-    if (this.state.redirect) {
-      return <Redirect push to={{
-        pathname: '/Components/CreateTaskForm.js',
-        state: {
-          selection: this.state.selection
-        }
-      }}/>
-    }
-
-    // if(this.props.location.state === undefined){
-    //   return <Redirect push to={'/Components/SignInForm.js'}/>
-    // }else{
-    return (
-      <div>
-
-        <ListDisplay listCollection={this.state.listCollection} clickHandler={this.clickHandler}/>
-        
-      </div>
-    );
-    }
-  }
 
 
 export default App;

@@ -1,14 +1,16 @@
 import React from 'react';
 import Axios from 'axios';
-import { AuthContext } from '../Context/Context';
-import { Redirect } from 'react-router';
+import { AuthContext } from '../Context/Authentication';
+import { withRouter, Redirect } from 'react-router-dom';
 
 
-export default class CLForm extends React.Component{
+class CLForm extends React.Component{
     state = {
         name: "",
         desc: "",
-        due: ""
+        due: "",
+
+        unavailableLists: []
     }
 
     change = e => {
@@ -21,35 +23,52 @@ export default class CLForm extends React.Component{
         e.preventDefault()
 
         const list = {
+            user: this.context.state.userLogged,
             name: this.state.name,
             description: this.state.desc,
-            due: this.state.due
+            due: this.state.due,
         }
       
         Axios.post('http://localhost:3306/lists', list)
         .then((res) => {
             console.log(res.data)
+            this.setState({
+                name: "",
+                desc: "",
+                due: ""
+            })
+            this.setState({ redirect: true })
         }).catch((error) => {
             console.log(error)
         });
 
-        this.setState({
-            name: "",
-            desc: "",
-            due: ""
-        })
+        
 
     }
     
+    componentDidMount(){
+        this.setState({ unavailableLists: this.props.history.location.state.unavailableLists })
+    }
 
+    goBack(){
+        this.setState({ back: true })
+    }
     
     render () {
-        if(this.context.isAuthenticated === false){
-            return <Redirect push to={'/Components/SignInForm.js'}/>
+        if (this.state.redirect){
+            return (
+                <Redirect push to={'/Select'}/>
+            )
+        }
+
+        if(this.state.back){
+            return (
+                <Redirect push to={'/Select'}/>
+            )
         }
 
         return(
-            
+            <div>
             <form>
                 <h3>Create New List</h3>
                 <input
@@ -58,6 +77,7 @@ export default class CLForm extends React.Component{
                 value={this.state.name}
                 onChange={e => this.change(e)}
                 />
+                <p className={(this.state.unavailableLists.includes(this.state.name)) ? "shown-messages" : "hidden-messages" } >List names must be unique</p>
                 <br/>
                 <input
                 name="desc"
@@ -73,16 +93,17 @@ export default class CLForm extends React.Component{
                 onChange={e => this.change(e)}
                 />
                 <br/>
-                <button onClick={e => this.onSubmit(e)}>Add List</button>
+                <button disabled={(this.state.unavailableLists.includes(this.state.name)) ? true : false} 
+                onClick={e => this.onSubmit(e)}
+                >Add List</button>
+                <br/>
+                <button type="button" onClick={() => this.goBack()}>Back</button>
 
             </form>
-
-
-
-
-
+            </div>
         )
     }
 
 }
+export default withRouter(CLForm);
 CLForm.contextType = AuthContext
