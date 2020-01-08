@@ -293,7 +293,7 @@ class CTForm extends React.Component{
                 value={this.state.name}
                 onChange={e => this.change(e)}
                 />
-                <p className={(this.state.unavailableTasks.includes(this.state.name)) ? "shown-messages" : "hidden-messages" } >No duplicate tasks in the same list</p>
+                <p className={(this.state.unavailableTasks.includes(this.state.name)) ? "shown-messages" : "hidden-messages" }>No duplicate tasks in the same list</p>
                 <br/>
                 <input
                 name="description"

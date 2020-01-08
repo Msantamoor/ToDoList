@@ -24,24 +24,24 @@
 }
 
 .shown-messages{
-    display: contents;
+    display: flexbox;
 }
 
 .rowClicked{
-    display: inline-flexbox;
+    display: flexbox;
     border: .1em solid lightblue;
     border-radius: 1em;
 }
 
 .rowNotClicked{
-    display: inline-flexbox;
+    display: flexbox;
     border: .1em solid gray;
     border-radius: 1em;
 }
 
 
 .Clicked{
-    display: inline-flexbox;
+    display: flexbox;
     border: .1em solid lightblue;
     border-radius: 1em;
 }
@@ -51,7 +51,7 @@
 }
 
 .buttonClicked{
-    display: inline-flexbox;
+    display: flexbox;
 }
 
 [completed=rowCompleted]{
@@ -65,7 +65,7 @@
 
 
 .deletebutton{
-    display: inline-flexbox;
+    display: flexbox;
     fill: red;
     color: white;
     border: .1em solid red;
@@ -74,7 +74,7 @@
 }
 
 [deletable=true]{
-    display: inline-flexbox;
+    display: flexbox;
     fill: solid red;
     border: .1em solid red;
     border-radius: 1em;
@@ -86,12 +86,12 @@
 }
 
 [shown=show]{
-    display: inline-flexbox;
+    display: flexbox;
     border: .1em solid lightblue;
     border-radius: 1em;
 }
 
-.taskDiplayer{
-    display: inline-flexbox;
-    align-content: center;
+.tableDisplay{
+    display: flex;
+    justify-content: center;
 }

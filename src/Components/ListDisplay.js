@@ -27,12 +27,11 @@ export default class ListDisplay extends Component {
 
 
     render(){
-        console.log("listrender");
         const listTable = this.listTable()
         
         return(
-            <div className="ListDisplayer">
-                <table className="taskDisplayer">
+            <div className="tableDisplay">
+                <table>
                 <thead>
                         <tr>
                             <td>Name</td>

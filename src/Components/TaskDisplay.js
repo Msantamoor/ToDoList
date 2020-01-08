@@ -36,8 +36,8 @@ export default class TaskDisplay extends Component {
 
 
         return(
-            <div className="">
-                <table className="taskDisplayer">
+            <div className="tableDisplay">
+                <table >
                     <thead>
                     </thead>
                     <tbody>

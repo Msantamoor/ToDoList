@@ -56,7 +56,7 @@ class TaskTable extends Component {
                     completed={(this.checkComplete(id)) ? "rowCompleted" : ""}>
                     {this.props.obj.description}
                 </td>
-                <td className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"}
+                <td className={(this.checkClicked(id)) ? "hidden-messages" : "rowNotClicked"}
                     completed={(this.checkComplete(id)) ? "rowCompleted" : ""}>
                     {this.props.obj.due}
                 </td>
