@@ -31,19 +31,16 @@ export default class ListDisplay extends Component {
         
         return(
             <div className="tableDisplay">
-                <table>
-                <thead>
-                        <tr>
-                            <td>Name</td>
-                            <td>Description</td>
-                            <td>Time</td>
-                        </tr>
-                    </thead>
-                    <tbody >
+                <div shape="rTable">
+                        <div shape="rTableRow">
+                            <div shape="rTableCell">Name</div>
+                            <div shape="rTableCell">Description</div>
+                            <div shape="rTableCell">Due</div>
+                        </div>
+                    
                         {listTable}
                         
-                    </tbody>
-                </table>
+                </div>
             </div>
             
 

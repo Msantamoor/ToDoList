@@ -41,26 +41,34 @@ class TaskTable extends Component {
         const name = this.props.obj.name
 
         return (
-            <tr 
+            <div 
+            shape="rTableRow" 
             onClick={() => this.props.isClicked(id, name)}
             onClickCapture={() => this.setState({clickedTasks: this.props.clickedTasks})}
             className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"} 
             completed={(this.checkComplete(id)) ? "rowCompleted" : ""}
             deletable={(this.checkDeletable(id)) ? "true" : "false"}
             >
-                <td className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"}
+                <div 
+                shape="rTableCell"
+                className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"}
                     completed={(this.checkComplete(id)) ? "rowCompleted" : ""}>
                     {this.props.obj.name}
-                </td>
-                <td className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"}
+                </div>
+                <div 
+                shape="rTableCell"
+                className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"}
                     completed={(this.checkComplete(id)) ? "rowCompleted" : ""}>
                     {this.props.obj.description}
-                </td>
-                <td className={(this.checkClicked(id)) ? "hidden-messages" : "rowNotClicked"}
+                </div>
+                <div 
+                shape="rTableCell"
+                className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"}
                     completed={(this.checkComplete(id)) ? "rowCompleted" : ""}>
                     {this.props.obj.due}
-                </td>
-                <td>
+                </div>
+                <div 
+                shape="rTableCell">
                     <button 
                     className={(this.checkClicked(id)) ? "Clicked" : "notClicked"} 
                     onClick={() => this.props.isCompleted(id)}
@@ -69,15 +77,16 @@ class TaskTable extends Component {
                     shown={(this.checkDeletable(id)) ? "hidden" : ""}
                     >Done</button>
                 
-                </td>
-                <td>
+                </div>
+                <div 
+                shape="rTableCell">
                     <button className={(this.checkClicked(id)) ? "Clicked" : "notClicked"} 
                     onClick={() => this.props.editMenu(this.props.obj)}
                     completed={(this.checkComplete(id)) ? "rowCompleted" : ""}
                     shown={(this.checkDeletable(id)) ? "hidden" : ""}
                     >Edit</button>
-                </td>
-                <td>    
+                </div>
+                <div shape="rTableCell">    
                     <button 
                     onClick={() => this.props.buttonClicked(id)} 
                     onClickCapture={() => this.setState({clickedButtons: this.props.clickedButtons})}
@@ -90,16 +99,17 @@ class TaskTable extends Component {
                     onClick={() => this.props.deleteOneTask(id)}
                     shown={(this.checkDeletable(id)) ? "" : "hidden"}
                     >Delete Task?</button>
-                </td>
-                <td>
+                </div>
+                <div 
+                shape="rTableCell">
                 <button 
                     className={(this.checkClicked(id)) ? "Clicked" : ""}
                     onClick={() => this.props.buttonClicked(id)}
                     shown={(this.checkDeletable(id)) ? "show" : "hidden"}
                     >Cancel</button>
-                </td>
+                </div>
                     
-            </tr>
+            </div>
         );
     }
 }

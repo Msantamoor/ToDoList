@@ -1,5 +1,35 @@
+[shape=rTable] {
+     display: table; 
+    }
+
+[shape=rTableRow] {
+     display: table-row; 
+    }
+
+[shape=rTableHeading] {
+     display: table-header-group; 
+    }
+
+[shape=rTableBody] {
+     display: table-row-group; 
+    }
+
+[shape=rTableFoot] {
+     display: table-footer-group; 
+    }
+
+[shape=rTableCell], [shape=rTableHead] {
+     display: table-cell; 
+     padding-top: .3em;
+     padding-bottom: .3em;
+     padding-left: .2em;
+     padding-right: .2em;
+    }
+
+
+
 [filled=good] {
-    border: .1em solid green;
+    border: .1em solid rgb(35, 154, 194);
 }
 
 [taken=true] {
@@ -7,7 +37,7 @@
 }
 
 .good{
-    border: .1em solid green;
+    border: .1em solid rgb(35, 154, 194);
 }
 
 #Ready{
@@ -29,20 +59,20 @@
 
 .rowClicked{
     display: flexbox;
-    border: .1em solid lightblue;
+    border: .1em solid rgb(35, 154, 194);
     border-radius: 1em;
 }
 
 .rowNotClicked{
     display: flexbox;
-    border: .1em solid gray;
+    border: .1em solid lightblue;
     border-radius: 1em;
 }
 
 
 .Clicked{
     display: flexbox;
-    border: .1em solid lightblue;
+    border: .1em solid rgb(35, 154, 194);
     border-radius: 1em;
 }
 
@@ -57,7 +87,8 @@
 [completed=rowCompleted]{
     display: inline-flexbox;
     text-emphasis: fade;
-    border: .2em solid green;
+    border: .1em solid rgb(161, 161, 161);
+    color: rgb(161, 161, 161);
     border-radius: 1em;
 }
 
@@ -87,7 +118,7 @@
 
 [shown=show]{
     display: flexbox;
-    border: .1em solid lightblue;
+    border: .1em solid rgb(35, 154, 194);
     border-radius: 1em;
 }
 

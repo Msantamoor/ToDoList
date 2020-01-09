@@ -314,6 +314,8 @@ class CTForm extends React.Component{
                 
             </form>
             <h2>{`${this.context.state.activeList}`}</h2>
+            <button type="button" onClick={() => this.goBack()}>Back</button>
+
             <TaskDisplay taskCollection={this.state.taskCollection} 
             editMenu={this.editMenu} isClicked={this.isClicked} 
             clickedTasks={this.state.clickedTasks} 
@@ -326,17 +328,18 @@ class CTForm extends React.Component{
 
             />
             <br/>
+            
                 <button 
                     onClick={() => this.setDoneDelete()} 
                     shown={this.state.doneDelete ? "hidden" : ""}
                     >Delete Done Tasks</button> 
-
+                
                 <button 
-                    className="deletebutton"
-                    onClick={() => this.deleteDoneTasks()}
-                    onClickCapture={() => this.setDoneDelete()}
-                    shown={this.state.doneDelete ? "" : "hidden"}
-                    >Delete Completed Tasks?</button>
+                    className="Clicked"
+                    onClick={() => this.setDoneDelete()}
+                    shown={this.state.doneDelete ? "show" : "hidden"}
+                    >Cancel</button>
+                
 
                 <button
                     onClick={() => this.setSelectedDelete()}
@@ -344,6 +347,23 @@ class CTForm extends React.Component{
                     >Delete Selected Tasks</button>
 
                 <button 
+                    className="Clicked"
+                    onClick={() => this.setSelectedDelete()}
+                    shown={this.state.selectedDelete ? "show" : "hidden"}
+                    >Cancel</button>
+               
+                
+
+            <br/>
+
+            <button 
+                    className="deletebutton"
+                    onClick={() => this.deleteDoneTasks()}
+                    onClickCapture={() => this.setDoneDelete()}
+                    shown={this.state.doneDelete ? "" : "hidden"}
+                    >Delete Completed Tasks?</button>
+
+            <button 
                     className="deletebutton"
                     onClick={() => this.deleteSelectedTasks()}
                     onClickCapture={() => this.setSelectedDelete()}
@@ -351,21 +371,12 @@ class CTForm extends React.Component{
                     >Delete Selected Tasks?</button>
 
 
-            <br/>
-            <button 
-                    className="Clicked"
-                    onClick={() => this.setDoneDelete()}
-                    shown={this.state.doneDelete ? "show" : "hidden"}
-                    >Cancel</button>
+            
 
-                    <button 
-                    className="Clicked"
-                    onClick={() => this.setSelectedDelete()}
-                    shown={this.state.selectedDelete ? "show" : "hidden"}
-                    >Cancel</button>
+
+                    
                     <br/>
-            <button type="button" onClick={() => this.goBack()}>Back</button>
-
+            
             </div>
 
             

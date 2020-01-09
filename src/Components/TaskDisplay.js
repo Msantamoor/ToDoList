@@ -37,14 +37,16 @@ export default class TaskDisplay extends Component {
 
         return(
             <div className="tableDisplay">
-                <table >
-                    <thead>
-                    </thead>
-                    <tbody>
-                        {taskTable}
-                    </tbody>
+                <div shape="rTable">
+                        <div shape="rTableRow">
+                            <div shape="rTableCell">Name</div>
+                            <div shape="rTableCell">Description</div>
+                            <div shape="rTableCell">Due</div>
+                        </div>
                     
-                </table>
+                        {taskTable}
+                        
+                </div>
 
             </div>
 

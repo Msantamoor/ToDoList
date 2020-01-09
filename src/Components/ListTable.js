@@ -31,35 +31,47 @@ class ListTable extends Component {
 
         return (
             
-            <tr onClick={() => this.props.isClicked(id)}
-                onClickCapture={() => this.setState({clickedLists: this.props.clickedLists})}
+            <div 
+            shape="rTableRow"
+            onClick={() => this.props.isClicked(id)}
+            onClickCapture={() => this.setState({clickedLists: this.props.clickedLists})}
             className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"} 
             deletable={(this.checkDeletable(id)) ? "true" : "false"}
             >
-                <td className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"}>
+                <div 
+                shape="rTableCell"
+                className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"}>
                     {this.props.obj.name}
-                </td>
-                <td className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"}>
+                </div>
+                <div 
+                shape="rTableCell"
+                className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"}>
                     {this.props.obj.description}
-                </td>
-                <td className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"}>
+                </div>
+                <div 
+                shape="rTableCell"
+                className={(this.checkClicked(id)) ? "rowClicked" : "rowNotClicked"}>
                     {this.props.obj.due}
-                </td>
-                <td>
+                </div>
+            <div>
+                <div
+                shape="rTableCell">
                     <button 
                     className={(this.checkClicked(id)) ? "Clicked" : "notClicked"} 
                     onClick={() => this.props.clickHandler(listname)}
                     shown={(this.checkDeletable(id)) ? "hidden" : ""}
                     >Select</button>
                 
-                </td>
-                <td>
+                </div>
+                <div
+                shape="rTableCell">
                     <button className={(this.checkClicked(id)) ? "Clicked" : "notClicked"} 
                     onClick={() => this.props.editMenu(this.props.obj)}
                     shown={(this.checkDeletable(id)) ? "hidden" : ""}
                     >Edit</button>
-                </td>
-                <td>    
+                </div>
+                <div
+                shape="rTableCell">    
                     <button 
                     onClick={() => this.props.buttonClicked(id)} 
                     onClickCapture={() => this.setState({clickedButtons: this.props.clickedButtons})}
@@ -71,15 +83,17 @@ class ListTable extends Component {
                     onClick={() => this.props.deleteOneList(id, listname)}
                     shown={(this.checkDeletable(id)) ? "" : "hidden"}
                     >Delete List?</button>
-                </td>
-                <td>
+                </div>
+                <div
+                shape="rTableCell">
                 <button 
-                    className={(this.checkClicked(id)) ? "Clicked" : "notClicked"}
+                    className={(this.checkClicked(id)) ? "Clicked" : ""}
                     onClick={() => this.props.buttonClicked(id)}
                     shown={(this.checkDeletable(id)) ? "show" : "hidden"}
                     >Cancel</button>
-                </td>
-            </tr>
+                </div>
+            </div>
+            </div>
             
         );
     }
