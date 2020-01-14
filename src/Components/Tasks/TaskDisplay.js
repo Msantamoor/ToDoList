@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TaskTable from './TaskTable.js'
-import '../form.css'
+import '../../form.css'
 
 
 export default class TaskDisplay extends Component {

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom'
 import PrivateRoute from './PrivateRoutes'
-import CTForm from '../CreateTaskForm'
-import CLForm from '../CreateListForm'
-import CUForm from '../CreateUserForm'
-import SIForm from '../SignInForm'
+import CTForm from '../Tasks/CreateTaskForm'
+import CLForm from '../Lists/CreateListForm'
+import CUForm from '../Users/CreateUserForm'
+import SIForm from '../Users/SignInForm'
 import SelectList from '../SelectList'
-import EditTask from '../EditTask'
-import EditList from '../EditList'
+import EditTask from '../Tasks/EditTask'
+import EditList from '../Lists/EditList'
 
 export const Routes = () => {
     return (  

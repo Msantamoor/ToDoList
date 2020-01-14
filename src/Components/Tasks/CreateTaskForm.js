@@ -2,9 +2,9 @@ import React from 'react';
 import Axios from 'axios';
 import 'react-router-dom'
 import TaskDisplay from './TaskDisplay';
-import { AuthContext } from '../Context/Authentication'
+import { AuthContext } from '../../Context/Authentication'
 import { Redirect, withRouter } from 'react-router-dom';
-import '../form.css'
+import '../../form.css'
 //
 
 

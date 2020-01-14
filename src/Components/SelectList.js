@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ListDisplay from './ListDisplay';
+import ListDisplay from './Lists/ListDisplay';
 import Axios from 'axios'
 import { Redirect } from 'react-router';
 import {AuthContext} from '../Context/Authentication'

@@ -1,13 +1,12 @@
 import React from 'react';
 import Axios from 'axios';
 import 'react-router-dom'
-import { AuthContext } from '../Context/Authentication'
+import { AuthContext } from '../../Context/Authentication'
 import { withRouter, Redirect } from 'react-router-dom';
-import '../form.css'
 
 
 
-class EList extends React.Component{
+class ETask extends React.Component{
     constructor(props){
         super(props);
 
@@ -16,8 +15,8 @@ class EList extends React.Component{
             description: "",
             due: "",
             selection: "",
-            unavailableLists: [],
-            taskCollection: []
+            taskCollection: [],
+            unavailableTasks: []
         };
 
         this.change = this.change.bind(this)
@@ -35,25 +34,17 @@ class EList extends React.Component{
     onSubmit = (e) => {
         e.preventDefault()
         const id = this.props.history.location.state.id
-        const listname = this.props.history.location.state.name
-
-        const taskUpdate = {
-            list: this.state.name
-        }
-
-        const list = {
+        const task = {
             user: this.context.state.userLogged,
             name: this.state.name,
             description: this.state.description,
             due: this.state.due,
+            list: this.context.state.activeList
         }
-        Axios.patch('http://localhost:3306/list', {
+        Axios.patch('http://localhost:3306/tasks', {
             params: {
-                user: this.context.state.userLogged,
                 id: id,
-                list: list,
-                prevName: listname,
-                nameUpdate: taskUpdate
+                task: task
             }
         })
         .then((res) => {
@@ -73,7 +64,7 @@ class EList extends React.Component{
             name: this.props.history.location.state.name,
             description: this.props.history.location.state.description,
             due: this.props.history.location.state.due,
-            unavailableLists: this.props.history.location.state.unavailableLists
+            unavailableTasks: this.props.history.location.state.unavailableTasks
         })
     }
 
@@ -85,27 +76,27 @@ class EList extends React.Component{
 
         if(this.state.redirect){
             return (
-                <Redirect push to={'/Select'}/>
+                <Redirect push to={'/CTForm'}/>
             )
         }
 
         if(this.state.back){
             return (
-                <Redirect push to={'/Select'}/>
+                <Redirect push to={'/CTForm'}/>
             )
         }
         
         return(
             <div>
             <form>
-                <h3>Edit List</h3>
+                <h3>Edit Task</h3>
                 <input
                 name="name"
-                placeholder="List Name"
+                placeholder="Task Name"
                 value={this.state.name}
                 onChange={e => this.change(e)}
                 />
-                <p className={(this.state.unavailableLists.includes(this.state.name)) ? "shown-messages" : "hidden-messages" } > List names must be unique</p>
+                <p className={(this.state.unavailableTasks.includes(this.state.name)) ? "shown-messages" : "hidden-messages" } > List names must be unique</p>
                 <br/>
                 <input
                 name="description"
@@ -121,9 +112,9 @@ class EList extends React.Component{
                 onChange={e => this.change(e)}
                 />
                 <br/>
-                <button disabled={this.state.name.length === 0} onClick={e => this.onSubmit(e)}>Update List</button>
+                <button disabled={this.state.name.length === 0} onClick={e => this.onSubmit(e)}>Update Task</button>
                 <br/>
-                <button type="button" onClick={() => this.goBack()}>Back</button>
+                <button type="button" disabled={(this.state.unavailableTasks.includes(this.state.name)) ? true : false} onClick={() => this.goBack()}>Back</button>
 
 
                 
@@ -136,5 +127,5 @@ class EList extends React.Component{
 
 }
 
-export default withRouter(EList);
-EList.contextType = AuthContext;
+export default withRouter(ETask);
+ETask.contextType = AuthContext;

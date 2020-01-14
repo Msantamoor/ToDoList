@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 import './form.css';
-import './Components/SignInForm';
-import './Components/CreateTaskForm'
+import './Components/Users/SignInForm';
+import './Components/Tasks/CreateTaskForm'
 import { Links } from './Components/Navigation/Links'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { AuthContext } from './Context/Authentication'

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../form.css'
+import '../../form.css'
 import Axios from 'axios'
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';

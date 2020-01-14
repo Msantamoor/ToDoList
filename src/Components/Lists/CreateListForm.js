@@ -1,6 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
-import { AuthContext } from '../Context/Authentication';
+import { AuthContext } from '../../Context/Authentication';
 import { withRouter, Redirect } from 'react-router-dom';
 
 
