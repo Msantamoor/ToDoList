@@ -16,7 +16,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "nodemon server.js",
+    "test": "PORT=3305 react-scripts start .env",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

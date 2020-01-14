@@ -101,7 +101,7 @@ class ETask extends React.Component{
                 <br/>
                 <input
                 name="description"
-                maxLength={250}
+                maxLength={50}
                 placeholder="What to do"
                 value={this.state.description}
                 onChange={e => this.change(e)}

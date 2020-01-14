@@ -82,7 +82,7 @@ class CLForm extends React.Component{
                 <br/>
                 <input
                 name="desc"
-                maxLength={250}
+                maxLength={50}
                 placeholder="Type of List"
                 value={this.state.desc}
                 onChange={e => this.change(e)}
