@@ -52,7 +52,7 @@ export default class CUForm extends React.Component {
             email: this.state.email,
             password: this.state.password
         }
-        Axios.get('http://localhost:3306/textfont', {
+        Axios.get('https://to-do-list-server-api.herokuapp.com/textfont', {
             params: {
                 username: this.state.username
             }
@@ -60,7 +60,7 @@ export default class CUForm extends React.Component {
         .then(res => {
             console.log(res)
             if(res.data === true){
-            (Axios.get('http://localhost:3306/textcolor', {
+            (Axios.get('https://to-do-list-server-api.herokuapp.com/textcolor', {
                 params: {
                     email: this.state.email
                 }
@@ -69,7 +69,7 @@ export default class CUForm extends React.Component {
                 console.log(res)
                 if(res.data === true){
                     console.log(`Email ${this.state.email} Available`)
-                    Axios.post('http://localhost:3306/users', user)
+                    Axios.post('https://to-do-list-server-api.herokuapp.com/users', user)
                     .then((res) => {
                         console.log(res.data)
                     }).catch((error) => {

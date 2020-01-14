@@ -32,7 +32,7 @@ constructor(props){
 
 
   refreshLists = () => {
-    Axios.get('http://localhost:3306/lists', {
+    Axios.get('https://to-do-list-server-api.herokuapp.com/lists', {
         params: {
             user: this.context.state.userLogged,
         }
@@ -87,12 +87,12 @@ buttonClicked(id){
 
   addlist(){
     this.setState({ redirect2: true})
-
+    
   }
 
   deleteOneList(id, listname){
     console.log(id)
-    Axios.delete('http://localhost:3306/list', {
+    Axios.delete('https://to-do-list-server-api.herokuapp.com/list', {
     params: {
         id: id,
         list: listname,

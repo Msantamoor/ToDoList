@@ -29,7 +29,7 @@ class CLForm extends React.Component{
             due: this.state.due,
         }
       
-        Axios.post('http://localhost:3306/lists', list)
+        Axios.post('https://to-do-list-server-api.herokuapp.com/lists', list)
         .then((res) => {
             console.log(res.data)
             this.setState({

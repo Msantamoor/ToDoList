@@ -47,7 +47,7 @@ class EList extends React.Component{
             description: this.state.description,
             due: this.state.due,
         }
-        Axios.patch('http://localhost:3306/list', {
+        Axios.patch('https://to-do-list-server-api.herokuapp.com/list', {
             params: {
                 user: this.context.state.userLogged,
                 id: id,

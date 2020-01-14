@@ -41,7 +41,7 @@ class ETask extends React.Component{
             due: this.state.due,
             list: this.context.state.activeList
         }
-        Axios.patch('http://localhost:3306/tasks', {
+        Axios.patch('https://to-do-list-server-api.herokuapp.com/tasks', {
             params: {
                 id: id,
                 task: task
