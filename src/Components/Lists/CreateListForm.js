@@ -73,6 +73,7 @@ class CLForm extends React.Component{
                 <h3>Create New List</h3>
                 <input
                 name="name"
+                maxLength={20}
                 placeholder="List Name"
                 value={this.state.name}
                 onChange={e => this.change(e)}
@@ -81,6 +82,7 @@ class CLForm extends React.Component{
                 <br/>
                 <input
                 name="desc"
+                maxLength={250}
                 placeholder="Type of List"
                 value={this.state.desc}
                 onChange={e => this.change(e)}
@@ -88,6 +90,7 @@ class CLForm extends React.Component{
                 <br/>
                 <input
                 name="due"
+                maxLength={20}
                 placeholder="Timeframe"
                 value={this.state.due}
                 onChange={e => this.change(e)}

@@ -289,6 +289,7 @@ class CTForm extends React.Component{
                 <h3>Create New Task</h3>
                 <input
                 name="name"
+                maxLength={20}
                 placeholder="Task Name"
                 value={this.state.name}
                 onChange={e => this.change(e)}
@@ -297,6 +298,7 @@ class CTForm extends React.Component{
                 <br/>
                 <input
                 name="description"
+                maxLength={250}
                 placeholder="What to do"
                 value={this.state.description}
                 onChange={e => this.change(e)}
@@ -304,6 +306,7 @@ class CTForm extends React.Component{
                 <br/>
                 <input
                 name="due"
+                maxLength={20}
                 placeholder="When to have it done"
                 value={this.state.due}
                 onChange={e => this.change(e)}
@@ -370,11 +373,6 @@ class CTForm extends React.Component{
                     shown={this.state.selectedDelete ? "" : "hidden"}
                     >Delete Selected Tasks?</button>
 
-
-            
-
-
-                    
                     <br/>
             
             </div>

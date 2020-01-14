@@ -139,6 +139,7 @@ export default class CUForm extends React.Component {
                 <h3>New User Registration</h3>
                 <input 
                 name="username" 
+                maxLength={30}
                 className={showErr('username') ? "error" : ""}
                 filled={showValid('username') ? "good" : ""}
                 taken={this.state.unavailableUsers.includes(this.state.username) ? "true" : ""}
@@ -153,6 +154,7 @@ export default class CUForm extends React.Component {
                 <br/>
                 <input 
                 name="email"
+                maxLength={30}
                 className={showErr('email') ? "error" : ""}
                 filled={showValid('email') ? "good" : ""}
                 taken={this.state.unavailableEmails.includes(this.state.email) ? "true" : ""}
@@ -167,6 +169,7 @@ export default class CUForm extends React.Component {
                 <br/>
                 <input 
                 name="password"
+                maxLength={30}
                 className={showErr('password') ? "error" : ""}
                 filled={showValid('password') ? "good" : ""}
                 onBlur={this.handleBlur('password')}
@@ -180,6 +183,7 @@ export default class CUForm extends React.Component {
                 <br/>
                 <input 
                 name="cpassword"
+                maxLength={30}
                 className={showErr('cpassword') ? "error" : ""}
                 filled={showValid('cpassword') ? "good" : ""}
                 onBlur={this.handleBlur('cpassword')}

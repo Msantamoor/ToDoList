@@ -117,6 +117,7 @@ export default class SIForm extends React.Component {
                 <h3>Sign-In</h3>
                 <input 
                 name="username" 
+                maxLength={20}
                 className={showErr('username') ? "error" : ""}
                 filled={showValid('username') ? "good" : ""}
                 onBlur={this.handleBlur('username')}
@@ -129,6 +130,7 @@ export default class SIForm extends React.Component {
                 <br/>
                 <input 
                 name="password"
+                maxLength={30}
                 className={showErr('password') ? "error" : ""}
                 filled={showValid('password') ? "good" : ""}
                 onBlur={this.handleBlur('password')}

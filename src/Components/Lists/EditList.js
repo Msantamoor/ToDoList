@@ -101,6 +101,7 @@ class EList extends React.Component{
                 <h3>Edit List</h3>
                 <input
                 name="name"
+                maxLength={20}
                 placeholder="List Name"
                 value={this.state.name}
                 onChange={e => this.change(e)}
@@ -109,6 +110,7 @@ class EList extends React.Component{
                 <br/>
                 <input
                 name="description"
+                maxLength={250}
                 placeholder="What to do"
                 value={this.state.description}
                 onChange={e => this.change(e)}
@@ -116,6 +118,7 @@ class EList extends React.Component{
                 <br/>
                 <input
                 name="due"
+                maxLength={20}
                 placeholder="When to have it done"
                 value={this.state.due}
                 onChange={e => this.change(e)}
