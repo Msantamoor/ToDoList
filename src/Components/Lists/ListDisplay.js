@@ -6,7 +6,6 @@ export default class ListDisplay extends Component {
     constructor(props){
         super(props);
         this.state = { 
-            listCollection: [], 
             clickedLists: [],
             clickedButtons: []
         

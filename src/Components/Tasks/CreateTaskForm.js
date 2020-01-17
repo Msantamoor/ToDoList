@@ -136,7 +136,7 @@ class CTForm extends React.Component{
 
 
     isCompleted(id){
-        Axios.get('https://to-do-list-server-api.herokuapp.com/completion', {
+        Axios.get('https://to-do-list-server-api.herokuapp.com/tasks-completed', {
             params: {
                 id: id,
                 completed: "true"
@@ -145,7 +145,7 @@ class CTForm extends React.Component{
         .then(res => {
             if(res.data === false){
                 const task = { completed: "true" }
-                Axios.patch('https://to-do-list-server-api.herokuapp.com/tasks', {
+                Axios.patch('https://to-do-list-server-api.herokuapp.com/tasks-completed', {
                 params: {
                     id: id,
                     task: task
@@ -160,7 +160,7 @@ class CTForm extends React.Component{
                 
             } else if(res.data === true){
                 const task = { completed: "false" }
-                Axios.patch('https://to-do-list-server-api.herokuapp.com/tasks', {
+                Axios.patch('https://to-do-list-server-api.herokuapp.com/tasks-completed', {
                 params: {
                     id: id,
                     task: task
@@ -186,7 +186,7 @@ class CTForm extends React.Component{
 
     deleteOneTask(id){
         console.log(id)
-        Axios.delete('https://to-do-list-server-api.herokuapp.com/tasks', {
+        Axios.delete('https://to-do-list-server-api.herokuapp.com/task', {
         params: {
             id: id
         }
@@ -202,7 +202,7 @@ class CTForm extends React.Component{
     }
 
     deleteDoneTasks(){
-        Axios.delete('https://to-do-list-server-api.herokuapp.com/tasksdone', {
+        Axios.delete('https://to-do-list-server-api.herokuapp.com/tasks-completed', {
             params: {
                 user: this.context.state.userLogged,
                 list: this.context.state.activeList
@@ -220,7 +220,7 @@ class CTForm extends React.Component{
 
     deleteSelectedTasks(){
         const names = this.state.clickedTaskNames
-            Axios.delete('https://to-do-list-server-api.herokuapp.com/selecttasks', {
+            Axios.delete('https://to-do-list-server-api.herokuapp.com/tasks-selected', {
             params: {
                 user: this.context.state.userLogged,
                 list: this.context.state.activeList,

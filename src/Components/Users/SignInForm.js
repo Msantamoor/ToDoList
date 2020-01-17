@@ -44,7 +44,7 @@ export default class SIForm extends React.Component {
 
     onSubmit = e => {
         e.preventDefault()
-        Axios.get('https://to-do-list-server-api.herokuapp.com/colortheme', {
+        Axios.get('https://to-do-list-server-api.herokuapp.com/users-login', {
             params: {
                 username: this.state.username,
                 password: this.state.password

@@ -8,7 +8,6 @@ export default class TaskDisplay extends Component {
     constructor(props){
         super(props);
         this.state = { 
-            taskCollection: [],
             clickedTasks: [],
             completedTasks: [],
             clickedButtons: [],

@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 
 class ListTable extends Component {
     state = {
-        selection: [],
         clickedLists: [],
         clickedButtons: [],
         unavailableLists: []
