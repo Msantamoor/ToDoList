@@ -41,7 +41,7 @@ class ETask extends React.Component{
             due: this.state.due,
             list: this.context.state.activeList
         }
-        Axios.patch('https://to-do-list-server-api.herokuapp.com/tasks', {
+        Axios.patch('https://to-do-list-server-api.herokuapp.com/task', {
             params: {
                 id: id,
                 task: task
@@ -97,7 +97,7 @@ class ETask extends React.Component{
                 value={this.state.name}
                 onChange={e => this.change(e)}
                 />
-                <p className={(this.state.unavailableTasks.includes(this.state.name)) ? "shown-messages" : "hidden-messages" } > List names must be unique</p>
+                <p className={(this.state.unavailableTasks.includes(this.state.name)) ? "shown-messages" : "hidden-messages" } > Task names must be unique</p>
                 <br/>
                 <input
                 name="description"

@@ -10,6 +10,8 @@ import { AuthContext } from './Context/Authentication'
 import Main from './Pages/index'
 import SignOut from './Components/Navigation/SignOut';
 
+export const URL = 'https://to-do-list-server-api.herokuapp.com'
+
 function App(){
   const [isAuthenticated, setAuthenticated] = useState(false)
   const [state, setState] = useState({

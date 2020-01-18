@@ -3,7 +3,7 @@ import '../../form.css'
 import Axios from 'axios'
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
-
+import {URL} from '../../App'
 
 function validate(username, email, password, cpassword) {
     return {
@@ -52,7 +52,7 @@ export default class CUForm extends React.Component {
             email: this.state.email,
             password: this.state.password
         }
-        Axios.get('https://to-do-list-server-api.herokuapp.com/users-names-available', {
+        Axios.get(`${URL}/users-names-available`, {
             params: {
                 username: this.state.username
             }

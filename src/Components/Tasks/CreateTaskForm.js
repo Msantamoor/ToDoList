@@ -145,7 +145,7 @@ class CTForm extends React.Component{
         .then(res => {
             if(res.data === false){
                 const task = { completed: "true" }
-                Axios.patch('https://to-do-list-server-api.herokuapp.com/tasks-completed', {
+                Axios.patch('https://to-do-list-server-api.herokuapp.com/task', {
                 params: {
                     id: id,
                     task: task
@@ -160,7 +160,7 @@ class CTForm extends React.Component{
                 
             } else if(res.data === true){
                 const task = { completed: "false" }
-                Axios.patch('https://to-do-list-server-api.herokuapp.com/tasks-completed', {
+                Axios.patch('https://to-do-list-server-api.herokuapp.com/task', {
                 params: {
                     id: id,
                     task: task
