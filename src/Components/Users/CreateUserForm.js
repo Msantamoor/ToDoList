@@ -60,7 +60,7 @@ export default class CUForm extends React.Component {
         .then(res => {
             console.log(res)
             if(res.data === true){
-            (Axios.get('https://to-do-list-server-api.herokuapp.com/users-emails-available', {
+            (Axios.get(`${URL}/users-emails-available`, {
                 params: {
                     email: this.state.email
                 }
@@ -69,7 +69,7 @@ export default class CUForm extends React.Component {
                 console.log(res)
                 if(res.data === true){
                     console.log(`Email ${this.state.email} Available`)
-                    Axios.post('https://to-do-list-server-api.herokuapp.com/users', user)
+                    Axios.post(`${URL}/users`, user)
                     .then((res) => {
                         console.log(res.data)
                     }).catch((error) => {

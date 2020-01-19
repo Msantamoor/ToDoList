@@ -4,6 +4,7 @@ import Axios from 'axios'
 import { Redirect } from 'react-router';
 import {AuthContext} from '../Context/Authentication'
 import '../App.css'
+import {URL} from '../App'
 
 export default class SelectList extends Component {
 constructor(props){
@@ -32,7 +33,7 @@ constructor(props){
 
 
   refreshLists = () => {
-    Axios.get('https://to-do-list-server-api.herokuapp.com/lists', {
+    Axios.get(`${URL}/lists`, {
         params: {
             user: this.context.state.userLogged,
         }
@@ -92,7 +93,7 @@ buttonClicked(id){
 
   deleteOneList(id, listname){
     console.log(id)
-    Axios.delete('https://to-do-list-server-api.herokuapp.com/list', {
+    Axios.delete(`${URL}/list`, {
     params: {
         id: id,
         list: listname,

@@ -3,6 +3,7 @@ import Axios from 'axios';
 import 'react-router-dom'
 import { AuthContext } from '../../Context/Authentication'
 import { withRouter, Redirect } from 'react-router-dom';
+import {URL} from '../../App'
 
 
 
@@ -41,7 +42,7 @@ class ETask extends React.Component{
             due: this.state.due,
             list: this.context.state.activeList
         }
-        Axios.patch('https://to-do-list-server-api.herokuapp.com/task', {
+        Axios.patch(`${URL}/task`, {
             params: {
                 id: id,
                 task: task

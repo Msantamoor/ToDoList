@@ -4,6 +4,7 @@ import 'react-router-dom'
 import { AuthContext } from '../../Context/Authentication'
 import { withRouter, Redirect } from 'react-router-dom';
 import '../../form.css'
+import {URL} from '../../App'
 
 
 
@@ -47,7 +48,7 @@ class EList extends React.Component{
             description: this.state.description,
             due: this.state.due,
         }
-        Axios.patch('https://to-do-list-server-api.herokuapp.com/list', {
+        Axios.patch(`${URL}/list`, {
             params: {
                 user: this.context.state.userLogged,
                 id: id,

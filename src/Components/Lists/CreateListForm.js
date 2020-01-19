@@ -2,6 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { AuthContext } from '../../Context/Authentication';
 import { withRouter, Redirect } from 'react-router-dom';
+import {URL} from '../../App'
 
 
 class CLForm extends React.Component{
@@ -29,7 +30,7 @@ class CLForm extends React.Component{
             due: this.state.due,
         }
       
-        Axios.post('https://to-do-list-server-api.herokuapp.com/lists', list)
+        Axios.post(`${URL}/lists`, list)
         .then((res) => {
             console.log(res.data)
             this.setState({

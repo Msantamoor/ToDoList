@@ -5,7 +5,8 @@ import TaskDisplay from './TaskDisplay';
 import { AuthContext } from '../../Context/Authentication'
 import { Redirect, withRouter } from 'react-router-dom';
 import '../../form.css'
-//
+import {URL} from '../../App'
+
 
 
 
@@ -50,7 +51,7 @@ class CTForm extends React.Component{
     };
 
     refreshTasks(){
-        Axios.get('https://to-do-list-server-api.herokuapp.com/tasks', {
+        Axios.get(`${URL}/tasks`, {
             params: {
                 user: this.context.state.userLogged,
                 list: this.context.state.activeList
@@ -76,7 +77,7 @@ class CTForm extends React.Component{
             due: this.state.due,
             list: this.context.state.activeList
         }
-        Axios.post('https://to-do-list-server-api.herokuapp.com/tasks', task)
+        Axios.post(`${URL}/tasks`, task)
         .then((res) => {
             console.log(res.data)
             this.setState({
@@ -136,7 +137,7 @@ class CTForm extends React.Component{
 
 
     isCompleted(id){
-        Axios.get('https://to-do-list-server-api.herokuapp.com/tasks-completed', {
+        Axios.get(`${URL}/tasks-completed`, {
             params: {
                 id: id,
                 completed: "true"
@@ -145,7 +146,7 @@ class CTForm extends React.Component{
         .then(res => {
             if(res.data === false){
                 const task = { completed: "true" }
-                Axios.patch('https://to-do-list-server-api.herokuapp.com/task', {
+                Axios.patch(`${URL}/task`, {
                 params: {
                     id: id,
                     task: task
@@ -160,7 +161,7 @@ class CTForm extends React.Component{
                 
             } else if(res.data === true){
                 const task = { completed: "false" }
-                Axios.patch('https://to-do-list-server-api.herokuapp.com/task', {
+                Axios.patch(`${URL}/task`, {
                 params: {
                     id: id,
                     task: task
@@ -186,7 +187,7 @@ class CTForm extends React.Component{
 
     deleteOneTask(id){
         console.log(id)
-        Axios.delete('https://to-do-list-server-api.herokuapp.com/task', {
+        Axios.delete(`${URL}/task`, {
         params: {
             id: id
         }
@@ -202,7 +203,7 @@ class CTForm extends React.Component{
     }
 
     deleteDoneTasks(){
-        Axios.delete('https://to-do-list-server-api.herokuapp.com/tasks-completed', {
+        Axios.delete(`${URL}/tasks-completed`, {
             params: {
                 user: this.context.state.userLogged,
                 list: this.context.state.activeList
@@ -220,7 +221,7 @@ class CTForm extends React.Component{
 
     deleteSelectedTasks(){
         const names = this.state.clickedTaskNames
-            Axios.delete('https://to-do-list-server-api.herokuapp.com/tasks-selected', {
+            Axios.delete(`${URL}/tasks-selected`, {
             params: {
                 user: this.context.state.userLogged,
                 list: this.context.state.activeList,
