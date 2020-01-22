@@ -31,7 +31,7 @@ class CLForm extends React.Component{
             due: this.state.due,
         }
       
-        Axios.post(`${URL}/lists`, list)
+        Axios.post(`${URL}/list`, list)
         .then((res) => {
             console.log(res.data)
             this.setState({

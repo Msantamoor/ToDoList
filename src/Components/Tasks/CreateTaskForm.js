@@ -5,7 +5,7 @@ import TaskDisplay from './TaskDisplay';
 import { AuthContext } from '../../Context/Authentication'
 import { Redirect, withRouter } from 'react-router-dom';
 import '../../form.css'
-import {URL} from '../../App'
+import { URL } from '../../App'
 
 
 
@@ -80,7 +80,7 @@ class CTForm extends React.Component{
             due: this.state.due,
             list: this.context.state.activeList
         }
-        Axios.post(`${URL}/tasks`, task)
+        Axios.post(`${URL}/task`, task)
         .then((res) => {
             console.log(res.data)
             this.setState({

@@ -57,7 +57,7 @@ export default class CUForm extends React.Component {
             password: this.state.password
         }
         //Checking to see if username is available
-        Axios.get(`${URL}/users-names-available`, {
+        Axios.get(`${URL}/user-names`, {
             params: {
                 username: this.state.username
             }
@@ -65,7 +65,7 @@ export default class CUForm extends React.Component {
         .then(res => {
             //if username is available, check email availability
             if(res.data === true){
-            (Axios.get(`${URL}/users-emails-available`, {
+            (Axios.get(`${URL}/user-emails`, {
                 params: {
                     email: this.state.email
                 }
@@ -74,7 +74,7 @@ export default class CUForm extends React.Component {
                 //if email is available, post new user
                 if(res.data === true){
                     console.log(`Email ${this.state.email} Available`)
-                    Axios.post(`${URL}/users`, user)
+                    Axios.post(`${URL}/user`, user)
                     .then((res) => {
                         console.log(res.data)
                     }).catch((error) => {
