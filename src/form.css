@@ -1,3 +1,4 @@
+
 [shape=rTable] {
      display: table; 
     }
@@ -93,9 +94,6 @@
     border-radius: 1em;
 }
 
-
-
-
 .deletebutton{
     display: flexbox;
     fill: red;
@@ -105,13 +103,6 @@
     background-color: red;
 }
 
-[deletable=true]{
-    display: flexbox;
-    fill: solid red;
-    border: .1em solid red;
-    border-radius: 1em;
-
-}
 
 [shown=hidden]{
     display: none;
@@ -121,6 +112,13 @@
     display: flexbox;
     border: .1em solid rgb(35, 154, 194);
     border-radius: 1em;
+}
+
+[deletable=true]{
+    fill: solid red;
+    border: .2em solid red;
+    border-radius: 1em;
+
 }
 
 .tableDisplay{

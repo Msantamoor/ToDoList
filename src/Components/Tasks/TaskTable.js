@@ -76,6 +76,12 @@ class TaskTable extends Component {
                     completed={(this.checkComplete(id)) ? "rowCompleted" : ""} 
                     shown={(this.checkDeletable(id)) ? "hidden" : ""}
                     >Done</button>
+
+                    <button 
+                    className="deletebutton"
+                    onClick={() => this.props.deleteOneTask(id)}
+                    shown={(this.checkDeletable(id)) ? "" : "hidden"}
+                    >Delete Task?</button>
                 
                 </div>
                 <div 
@@ -85,6 +91,12 @@ class TaskTable extends Component {
                     completed={(this.checkComplete(id)) ? "rowCompleted" : ""}
                     shown={(this.checkDeletable(id)) ? "hidden" : ""}
                     >Edit</button>
+
+                <button 
+                    className={(this.checkClicked(id)) ? "Clicked" : ""}
+                    onClick={() => this.props.buttonClicked(id)}
+                    shown={(this.checkDeletable(id)) ? "show" : "hidden"}
+                    >Cancel</button>
                 </div>
                 <div shape="rTableCell">    
                     <button 
@@ -94,19 +106,7 @@ class TaskTable extends Component {
                     className={(this.checkClicked(id)) ? "Clicked" : "notClicked"}
                     shown={(this.checkDeletable(id)) ? "hidden" : ""}
                     >Delete</button> 
-                    <button 
-                    className="deletebutton"
-                    onClick={() => this.props.deleteOneTask(id)}
-                    shown={(this.checkDeletable(id)) ? "" : "hidden"}
-                    >Delete Task?</button>
-                </div>
-                <div 
-                shape="rTableCell">
-                <button 
-                    className={(this.checkClicked(id)) ? "Clicked" : ""}
-                    onClick={() => this.props.buttonClicked(id)}
-                    shown={(this.checkDeletable(id)) ? "show" : "hidden"}
-                    >Cancel</button>
+                    
                 </div>
                     
             </div>

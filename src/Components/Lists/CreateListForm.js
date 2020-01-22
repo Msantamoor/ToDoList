@@ -2,7 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { AuthContext } from '../../Context/Authentication';
 import { withRouter, Redirect } from 'react-router-dom';
-import {URL} from '../../App'
+import { URL } from '../../App'
 
 
 class CLForm extends React.Component{
@@ -20,6 +20,7 @@ class CLForm extends React.Component{
         })
     };
     
+    //Post a new list with a user attribute, linking the list to the current account, then redirecting
     onSubmit = e => {
         e.preventDefault()
 
@@ -47,22 +48,19 @@ class CLForm extends React.Component{
 
     }
     
+    //Get the unavailable listnames to prevent duplicates
     componentDidMount(){
         this.setState({ unavailableLists: this.props.history.location.state.unavailableLists })
     }
 
+    //Trigger redirect back to list selection
     goBack(){
-        this.setState({ back: true })
+        this.setState({ redirect: true })
     }
     
     render () {
+        //Redirect to list select after a successful post, or by using the back button
         if (this.state.redirect){
-            return (
-                <Redirect push to={'/Select'}/>
-            )
-        }
-
-        if(this.state.back){
             return (
                 <Redirect push to={'/Select'}/>
             )
@@ -79,6 +77,7 @@ class CLForm extends React.Component{
                 value={this.state.name}
                 onChange={e => this.change(e)}
                 />
+                {/* Displays a message when the name is a duplicate */}
                 <p className={(this.state.unavailableLists.includes(this.state.name)) ? "shown-messages" : "hidden-messages" } >List names must be unique</p>
                 <br/>
                 <input
@@ -97,6 +96,7 @@ class CLForm extends React.Component{
                 onChange={e => this.change(e)}
                 />
                 <br/>
+                {/* Disables button when the name is unavailable, preventing duplicates */}
                 <button disabled={(this.state.unavailableLists.includes(this.state.name)) ? true : false} 
                 onClick={e => this.onSubmit(e)}
                 >Add List</button>

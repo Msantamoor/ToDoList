@@ -33,11 +33,15 @@ class EList extends React.Component{
 
     };
 
-    onSubmit = (e) => {
+    //Patches the list, as well as all tasks with the list attribute so they maintain their association.
+    onSubmit = e => {
         e.preventDefault()
         const id = this.props.history.location.state.id
+
+        //Gets previous listname to target associated tasks
         const listname = this.props.history.location.state.name
 
+        //New name for the list attribute on associated tasks
         const taskUpdate = {
             list: this.state.name
         }
@@ -48,6 +52,7 @@ class EList extends React.Component{
             description: this.state.description,
             due: this.state.due,
         }
+        //Patch request for the list and associated tasks
         Axios.patch(`${URL}/list`, {
             params: {
                 user: this.context.state.userLogged,
@@ -69,6 +74,7 @@ class EList extends React.Component{
         });
     }
 
+    //Retrieving current values of the list to populate the fields for easier editting
     componentDidMount(){
         this.setState({
             name: this.props.history.location.state.name,
@@ -78,19 +84,14 @@ class EList extends React.Component{
         })
     }
 
+    //Trigger Redirect Back to list selection
     goBack(){
-        this.setState({ back: true })
+        this.setState({ redirect: true })
     }
     
     render () {
 
         if(this.state.redirect){
-            return (
-                <Redirect push to={'/Select'}/>
-            )
-        }
-
-        if(this.state.back){
             return (
                 <Redirect push to={'/Select'}/>
             )
@@ -107,6 +108,7 @@ class EList extends React.Component{
                 value={this.state.name}
                 onChange={e => this.change(e)}
                 />
+                {/* Displays message when the name is a duplicate */}
                 <p className={(this.state.unavailableLists.includes(this.state.name)) ? "shown-messages" : "hidden-messages" } > List names must be unique</p>
                 <br/>
                 <input

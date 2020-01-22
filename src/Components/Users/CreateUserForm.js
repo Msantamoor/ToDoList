@@ -42,7 +42,7 @@ export default class CUForm extends React.Component {
     };
 
     //Allowing css to be applied only after a field has been touched
-    handleBlur = (field) => {
+    handleBlur = (field) => e => {
         this.setState({
           touched: { ...this.state.touched, [field]: true },
         });

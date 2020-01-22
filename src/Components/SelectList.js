@@ -122,6 +122,7 @@ export default class SelectList extends Component {
             due: obj.due,
             editId: obj._id 
         })
+        //Removes current name from the unavailable lists to allow patching without changing the name.
         this.state.unavailableLists.splice(this.state.unavailableLists.indexOf(obj.name), 1);
         this.setState({ redirect3: true})
   }

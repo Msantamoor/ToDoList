@@ -12,7 +12,7 @@ export default class ListDisplay extends Component {
         };
     }
 
-
+    //Maps the listCollection to allow data elements to fit nicely into a div table.
     listTable = () => {
         return this.props.listCollection.map((data, i) => {
             return <ListTable obj={data} key={i} clickHandler={this.props.clickHandler} 
