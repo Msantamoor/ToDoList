@@ -32,6 +32,7 @@ class ETask extends React.Component{
 
     };
 
+    //Patches the selected task, then redirects to task display
     onSubmit = (e) => {
         e.preventDefault()
         const id = this.props.history.location.state.id
@@ -60,6 +61,7 @@ class ETask extends React.Component{
         });
     }
 
+    //Retrieves previous value of task fields for easier editting, as well as unavailable task names.
     componentDidMount(){
         this.setState({
             name: this.props.history.location.state.name,
@@ -69,19 +71,15 @@ class ETask extends React.Component{
         })
     }
 
+    //Triggers redirect to task display
     goBack(){
-        this.setState({ back: true })
+        this.setState({ redirect: true })
     }
     
     render () {
 
+        //Redirects to the create task form and the task display
         if(this.state.redirect){
-            return (
-                <Redirect push to={'/CTForm'}/>
-            )
-        }
-
-        if(this.state.back){
             return (
                 <Redirect push to={'/CTForm'}/>
             )
@@ -98,6 +96,7 @@ class ETask extends React.Component{
                 value={this.state.name}
                 onChange={e => this.change(e)}
                 />
+                {/* Shows message when a task name is a duplicate in the same list */}
                 <p className={(this.state.unavailableTasks.includes(this.state.name)) ? "shown-messages" : "hidden-messages" } > Task names must be unique</p>
                 <br/>
                 <input
@@ -116,7 +115,8 @@ class ETask extends React.Component{
                 onChange={e => this.change(e)}
                 />
                 <br/>
-                <button disabled={this.state.name.length === 0} onClick={e => this.onSubmit(e)}>Update Task</button>
+                {/* Prevents submission unless the task name is unique in the list */}
+                <button disabled={this.state.name.length === 0 || (this.state.unavailableTasks.includes(this.state.name))} onClick={e => this.onSubmit(e)}>Update Task</button>
                 <br/>
                 <button type="button" disabled={(this.state.unavailableTasks.includes(this.state.name)) ? true : false} onClick={() => this.goBack()}>Back</button>
 

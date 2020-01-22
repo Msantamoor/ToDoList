@@ -10,22 +10,27 @@ class TaskTable extends Component {
         clickedButtons: [],
         unavailableTasks: []
     }
-
+    
+    //Checks if each row has been clicked
     checkClicked(id){
         let bool = (this.state.clickedTasks.includes(id))
         return bool
     }
 
+    //Checks if a task is completed
     checkComplete(id){
         let bool = (this.props.completedTasks.includes(id))
         return bool
     }
 
+    //Checks if a delete is ready to be confirmed
     checkDeletable(id){
         let bool = (this.state.clickedButtons.includes(id))
         return bool
     }
 
+    //Sends the names of each row on mount, creating the array of unavailable list names
+    //checks for completed attributes on tasks to create the completed tasks array
     componentDidMount(){
         this.props.unavailableTasks.push(this.props.obj.name)
         this.setState({ unavailableTasks: this.props.unavailableTasks})
@@ -69,6 +74,7 @@ class TaskTable extends Component {
                 </div>
                 <div 
                 shape="rTableCell">
+                    {/* Patches the task to change its completed attribute */}
                     <button 
                     className={(this.checkClicked(id)) ? "Clicked" : "notClicked"} 
                     onClick={() => this.props.isCompleted(id)}
@@ -77,6 +83,7 @@ class TaskTable extends Component {
                     shown={(this.checkDeletable(id)) ? "hidden" : ""}
                     >Done</button>
 
+                    {/* The real Delete button, only visible after being primed by the first delete button */}
                     <button 
                     className="deletebutton"
                     onClick={() => this.props.deleteOneTask(id)}
@@ -98,7 +105,9 @@ class TaskTable extends Component {
                     shown={(this.checkDeletable(id)) ? "show" : "hidden"}
                     >Cancel</button>
                 </div>
-                <div shape="rTableCell">    
+                <div shape="rTableCell">   
+
+                    {/* Primes the delete function, revealing the button to delete this task after confirmation */}
                     <button 
                     onClick={() => this.props.buttonClicked(id)} 
                     onClickCapture={() => this.setState({clickedButtons: this.props.clickedButtons})}

@@ -15,7 +15,7 @@ export default class TaskDisplay extends Component {
         };
     }
 
-
+    //Maps the taskCollection to allow data elements to fit nicely into a div table.
     taskTable = () => {
         return this.props.taskCollection.map((data, i) => {
             return <TaskTable obj={data} key={i}

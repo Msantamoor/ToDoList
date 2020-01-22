@@ -50,6 +50,7 @@ class CTForm extends React.Component{
 
     };
 
+    //Gets updated tasks from the server, filtered by user and list attributes assigned on creation
     refreshTasks(){
         Axios.get(`${URL}/tasks`, {
             params: {
@@ -69,6 +70,7 @@ class CTForm extends React.Component{
         })
     }
 
+    //Posts a new task to the DB with user and list context values as attributes for filtering
     onSubmit = (e) => {
         e.preventDefault()
         const task = {
@@ -92,11 +94,13 @@ class CTForm extends React.Component{
         });
     }
 
+    //Refreshes Tasks on mount
     componentDidMount = () => {
         this.refreshTasks()
     }
     
-
+    //Sets state as the current value of the task to edit, to be passed as state on redirect to the update forms.
+    //Makes the fields filled with the current values of the list for easier editting.
     editMenu(obj){
         this.setState({
             name: obj.name,
@@ -104,13 +108,17 @@ class CTForm extends React.Component{
             due: obj.due,
             editId: obj._id 
         })
+        //Removes current name from the unavailable tasks to allow patching without changing the name.
         this.state.unavailableTasks.splice(this.state.unavailableTasks.indexOf(obj.name), 1);
         this.setState({ redirect: true})
     }
 
+    //Creates an array of all tasks that are currently clicked to display css, and another to target for bulk delete of specific items.
+    //Bulk delete needs to work with names rather than ID, Mongo's Object(ID) method has strict rules preventing aggregate syntax.
+    //An array of names can be passed in mimicking perfect aggregate query syntax of endless length for specific deletions in bulk -
+    //- with one DeleteMany Request to the Database, duplicate protection on create ensures no unintended deletions.
     isClicked(id, name){
         let clicked = (this.state.clickedTasks.includes(id))
-       //console.log(clicked)
        if(clicked === false){
            this.state.clickedTasks.push(id)
            this.state.clickedTaskNames.push(name)
@@ -123,6 +131,7 @@ class CTForm extends React.Component{
        }
     }
 
+    //Creates an array to track clicked buttons for delete confirmation
     buttonClicked(id){
         let clicked = (this.state.clickedButtons.includes(id))
        //console.log(clicked)
@@ -136,7 +145,8 @@ class CTForm extends React.Component{
        }
     }
 
-
+    //Patches a specific task to update its completed attribute, displaying greyed out css
+    //Primes task to be deleted with the other completed tasks in bulk
     isCompleted(id){
         Axios.get(`${URL}/tasks-completed`, {
             params: {
@@ -183,9 +193,7 @@ class CTForm extends React.Component{
         })
     }
 
-       
-
-
+    //Deletes a specific task by ID
     deleteOneTask(id){
         console.log(id)
         Axios.delete(`${URL}/task`, {
@@ -203,6 +211,7 @@ class CTForm extends React.Component{
         })
     }
 
+    //Deletes all tasks in the list with completed: true attributes
     deleteDoneTasks(){
         Axios.delete(`${URL}/tasks-completed`, {
             params: {
@@ -220,6 +229,8 @@ class CTForm extends React.Component{
         })
     }
 
+    //Deletes all currently clicked tasks by sending an array of any length to be converted into aggregate query syntax.
+    //All specified tasks are deleted with one Mongo deleteMany function
     deleteSelectedTasks(){
         const names = this.state.clickedTaskNames
             Axios.delete(`${URL}/tasks-selected`, {
@@ -230,19 +241,21 @@ class CTForm extends React.Component{
             }
         })
             .then(res => {
+                //Clears targeted tasks from the unavailable tasks array after deletion
                 this.state.unavailableTasks.splice(0, this.state.unavailableTasks.length)
                 this.refreshTasks()
-                //console.log(res)
             })
             .catch(function(error){
                 console.log(error);
             })
     }
 
+    //Triggers redirect to the list selection
     goBack(){
         this.setState({ back: true })
     }
 
+    //Primes the button to delete all completed tasks after confirmation
     setDoneDelete(){
         if(this.state.doneDelete === false){
             this.setState({ doneDelete: true})
@@ -253,6 +266,7 @@ class CTForm extends React.Component{
         }
     }
     
+    //Primes the button to delete all selected tasks after confirmation
     setSelectedDelete(){
         if(this.state.selectedDelete === false){
             this.setState({ selectedDelete: true })
@@ -264,6 +278,8 @@ class CTForm extends React.Component{
     }
 
     render () {
+
+        //Redirects to the edit list form, passing in the current list values to populate the fields for easier editting
         if(this.state.redirect){
         return (
             <Redirect push={true} to={{
@@ -279,6 +295,7 @@ class CTForm extends React.Component{
         )
         }
 
+        //Redirects back to the list selection
         if(this.state.back){
             return (
                 <Redirect push to={'/Select'}/>
@@ -296,6 +313,7 @@ class CTForm extends React.Component{
                 value={this.state.name}
                 onChange={e => this.change(e)}
                 />
+                {/* Displays message when the taskname is a duplicate in the same list */}
                 <p className={(this.state.unavailableTasks.includes(this.state.name)) ? "shown-messages" : "hidden-messages" }>No duplicate tasks in the same list</p>
                 <br/>
                 <input
@@ -314,13 +332,14 @@ class CTForm extends React.Component{
                 onChange={e => this.change(e)}
                 />
                 <br/>
-                
+                {/* Prevents submission until the tasks are loaded to ensure duplicate names are known, and the input is valid */}
                 <button disabled={this.state.name.length === 0 || (this.state.unavailableTasks.includes(this.state.name)) || (this.state.tasksLoaded === false)} onClick={e => this.onSubmit(e)}>Add Task</button>
                 
             </form>
             <h2>{`${this.context.state.activeList}`}</h2>
             <button type="button" onClick={() => this.goBack()}>Back</button>
 
+            {/* Displays retrieved tasks filtered by userLogged and activeList context values */}
             <TaskDisplay taskCollection={this.state.taskCollection} 
             editMenu={this.editMenu} isClicked={this.isClicked} 
             clickedTasks={this.state.clickedTasks} 
@@ -334,6 +353,7 @@ class CTForm extends React.Component{
             />
             <br/>
             
+                {/* Primes completed task delete, revealing real button and a cancel option */}
                 <button 
                     onClick={() => this.setDoneDelete()} 
                     shown={this.state.doneDelete ? "hidden" : ""}
@@ -345,7 +365,7 @@ class CTForm extends React.Component{
                     shown={this.state.doneDelete ? "show" : "hidden"}
                     >Cancel</button>
                 
-
+                {/* Primes selected task delete, revealing real button and a cancel option */}
                 <button
                     onClick={() => this.setSelectedDelete()}
                     shown={this.state.selectedDelete ? "hidden" : ""}
@@ -361,6 +381,7 @@ class CTForm extends React.Component{
 
             <br/>
 
+            {/* Deletes all completed tasks in the list */}
             <button 
                     className="deletebutton"
                     onClick={() => this.deleteDoneTasks()}
@@ -368,6 +389,7 @@ class CTForm extends React.Component{
                     shown={this.state.doneDelete ? "" : "hidden"}
                     >Delete Completed Tasks?</button>
 
+            {/* Deletes all selected tasks in the list */}
             <button 
                     className="deletebutton"
                     onClick={() => this.deleteSelectedTasks()}
