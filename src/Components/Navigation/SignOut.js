@@ -8,14 +8,14 @@ function SignOut() {
     return context.isAuthenticated ? (
             <button
                 onClick={() => {
-                    context.signout();
+                    context.signout()
                 }}
             >
                 Sign out
       </button>
     ) : (
             <p>Sign in to view lists</p>
-        );
+        )
 }
 
 export default SignOut;

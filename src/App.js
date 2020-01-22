@@ -10,6 +10,7 @@ import { AuthContext } from './Context/Authentication'
 import Main from './Pages/index'
 import SignOut from './Components/Navigation/SignOut';
 
+//URL for API
 export const URL = 'https://to-do-list-server-api.herokuapp.com'
 
 function App(){
@@ -19,6 +20,7 @@ function App(){
     activeList: ""
 })
 
+//Provides the logged in state
   const authenticate = () => {
     setAuthenticated(true)
   }
@@ -27,6 +29,7 @@ function App(){
     setAuthenticated(false)
   }
 
+  //Sets the userlogged context value and the activeList context Value for data filtering.
   const identify = (user, list) => {
     console.log(user)
     console.log(list)
@@ -59,4 +62,4 @@ function App(){
 }
 
 
-export default App;
+export default App

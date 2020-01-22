@@ -7,7 +7,7 @@ import '../../App';
 import { AuthContext } from '../../Context/Authentication';
 import {URL} from '../../App'
 
-
+//Checks for valid form entries
 function validate(username, password) {
     return {
         username: username.length === 0,
@@ -30,21 +30,24 @@ export default class SIForm extends React.Component {
             attempt: true
         }
 
+    //Setting state with field values on  change
     change = e => {
         this.setState({
         [e.target.name]: e.target.value
         })
     };
 
-    handleBlur = (field) => (e) => {
+    //Allowing css to be applied only after a field has been touched
+    handleBlur = (field) => {
         this.setState({
           touched: { ...this.state.touched, [field]: true },
         });
       }
 
-
+    //Attempt Sign-in
     onSubmit = e => {
         e.preventDefault()
+        //Pass in username and password to be checked
         Axios.get(`${URL}/users-login`, {
             params: {
                 username: this.state.username,
@@ -53,11 +56,13 @@ export default class SIForm extends React.Component {
         })
         .then(res => {
             console.log(res)
+            //if the username and password matches, set context value authenticated, and redirect
             if(res.data === true){
                 console.log('Password matches')
                 this.context.authenticate()
                 this.setState({ attempt: true})
                 this.setState({ redirect: true})
+            //if the username and password does not match, display failed login attempt
             } else {
                 this.setState({
                     username: "", 
@@ -80,6 +85,7 @@ export default class SIForm extends React.Component {
 
     render(){
 
+        //Set userLogged context value, and redirect to list selection.
         if(this.state.redirect){
             console.log('login successful')
             return(
@@ -91,12 +97,11 @@ export default class SIForm extends React.Component {
             )
             }
     
-        
-        
-
+        //Checks if each field has valid entries
         var errors = validate(this.state.username, this.state.password);        
         const isEnabled = !Object.keys(errors).some(x => errors[x]);
         
+        //Checks if error css should be shown
         const showErr = (field) => {
             const hasError = errors[field];
             const shouldShow = this.state.touched[field];
@@ -104,12 +109,13 @@ export default class SIForm extends React.Component {
             return hasError ? shouldShow : false;
           };
 
-          const showValid = (field) => {
-            const shouldShow = this.state.touched[field];
+        //Checks if good css should be shown
+        const showValid = (field) => {
+        const shouldShow = this.state.touched[field];
 
-            return shouldShow ? true : false
-            
-          };
+        return shouldShow ? true : false
+        
+        };
 
           
         return (

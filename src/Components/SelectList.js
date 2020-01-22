@@ -7,31 +7,31 @@ import '../App.css'
 import {URL} from '../App'
 
 export default class SelectList extends Component {
-constructor(props){
-  super(props)
+  constructor(props){
+    super(props)
 
-  this.state = {
-    selection: "",
-    listCollection: [],
-    clickedLists: [],
-    clickedButtons: [],
-    unavailableLists: [],
-    editId: "",
-    listsLoaded: false
-    
+    this.state = {
+      selection: "",
+      listCollection: [],
+      clickedLists: [],
+      clickedButtons: [],
+      unavailableLists: [],
+      editId: "",
+      listsLoaded: false
+      
+    }
+
+
+    this.clickHandler = this.clickHandler.bind(this)
+    this.isClicked = this.isClicked.bind(this)
+    this.deleteOneList = this.deleteOneList.bind(this)
+    this.buttonClicked = this.buttonClicked.bind(this)
+    this.editMenu = this.editMenu.bind(this)
+
   }
 
 
-  this.clickHandler = this.clickHandler.bind(this)
-  this.isClicked = this.isClicked.bind(this)
-  this.deleteOneList = this.deleteOneList.bind(this)
-  this.buttonClicked = this.buttonClicked.bind(this)
-  this.editMenu = this.editMenu.bind(this)
-
-}
-
-
-
+  //Gets current lists from the DB, filtered by the current userLogged
   refreshLists = () => {
     Axios.get(`${URL}/lists`, {
         params: {
@@ -41,56 +41,59 @@ constructor(props){
         .then(res => {
             console.log(res)
             this.setState({ listCollection: res.data.data,
-            listsLoaded: true });
+            listsLoaded: true })
 
         })
         .catch(function(error){
-            console.log(error);
+            console.log(error)
         })
-};
+  }
 
-
+  //Refreshes to grab current lists on mount
   componentDidMount(){
   this.refreshLists()
   }
 
+  //Stores a clicked state for each list to display the CSS and the menu
   isClicked(id){
     let clicked = (this.state.clickedLists.includes(id))
-   //console.log(clicked)
-   if(clicked === false){
-       this.state.clickedLists.push(id)
-       return clicked === true
+    if(clicked === false){
+        this.state.clickedLists.push(id)
+        return clicked === true
 
-   } else if(clicked === true){
-       this.state.clickedLists.splice(this.state.clickedLists.indexOf(id), 1);
-       return clicked === false
-   }
-}
+    } else if(clicked === true){
+        this.state.clickedLists.splice(this.state.clickedLists.indexOf(id), 1);
+        return clicked === false
+    }
+  }
 
-buttonClicked(id){
-  let clicked = (this.state.clickedButtons.includes(id))
- //console.log(clicked)
- if(clicked === false){
-     this.state.clickedButtons.push(id)
-     return clicked === true
+  //stores a clicked state for buttons
+  buttonClicked(id){
+    let clicked = (this.state.clickedButtons.includes(id))
+    if(clicked === false){
+        this.state.clickedButtons.push(id)
+        return clicked === true
 
- } else if(clicked === true){
-     this.state.clickedButtons.splice(this.state.clickedButtons.indexOf(id), 1);
-     return clicked === false
- }
-}
+    } else if(clicked === true){
+        this.state.clickedButtons.splice(this.state.clickedButtons.indexOf(id), 1);
+        return clicked === false
+    }
+  }
 
+  //Selects a list, setting the name as the current selection and triggering a redirect
   clickHandler(name) {
     console.log(name)
     this.setState({ selection: name });
     this.setState({ redirect: true });
   }
 
+  //triggers a redirect to the create list form
   addlist(){
     this.setState({ redirect2: true})
     
   }
 
+  //Deletes a list by ID, and all tasks with that list attribute
   deleteOneList(id, listname){
     console.log(id)
     Axios.delete(`${URL}/list`, {
@@ -99,17 +102,19 @@ buttonClicked(id){
         list: listname,
         user: this.context.state.userLogged
     }
-})
+  })
     .then(res => {
+      //Removes this listname from the unavailable lists for duplicate protection.
         this.state.unavailableLists.splice(this.state.unavailableLists.indexOf(id), 1);
         this.refreshLists()
-        //console.log(res)
     })
     .catch(function(error){
         console.log(error);
     })
-}
+  }
 
+//Sets state as the current value of the list to edit, to be passed as state on redirect to the update forms.
+//Makes the fields filled with the current values of the list for easier editting.
   editMenu(obj){
         this.setState({
             name: obj.name,
@@ -119,10 +124,12 @@ buttonClicked(id){
         })
         this.state.unavailableLists.splice(this.state.unavailableLists.indexOf(obj.name), 1);
         this.setState({ redirect3: true})
-    }
+  }
 
   render() {
 
+    //Redirects to task display, setting the context activeList value to filter for relevant tasks,
+    //resetting the userLogged context value as it's current value to prevent the logged state from being cleared
     if (this.state.redirect) {
       console.log(this.state.selection)
         return(
@@ -135,6 +142,7 @@ buttonClicked(id){
         )
     }
 
+    //Redirects to the create list form, passing in the currently used names as unavailable to prevent duplicates
     if (this.state.redirect2){
         return (
           <Redirect push={true} to={{
@@ -146,6 +154,7 @@ buttonClicked(id){
         )
     }
 
+    //Redirects to the edit list form, passing in the current list values to populate the fields for easier editting.
     if(this.state.redirect3){
         return (
           <Redirect push={true} to={{
@@ -163,8 +172,11 @@ buttonClicked(id){
 
     return (
       <div>
+        {/* Forces the add list button to wait until the current lists are retrieved from the database,
+        ensuring the unavailable list names can be sent to the create form, preventing duplicates. */}
         <button disabled={this.state.listsLoaded ? false : true} onClick={() => this.addlist()}>Create New List</button>
         
+        {/* Displays the retrieved lists filtered by the userLogged context. */}
         <ListDisplay listCollection={this.state.listCollection} clickHandler={this.clickHandler} 
         editMenu={this.editMenu} 
         isClicked={this.isClicked} clickedLists={this.state.clickedLists} 

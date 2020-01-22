@@ -3,8 +3,9 @@ import '../../form.css'
 import Axios from 'axios'
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
-import {URL} from '../../App'
+import { URL } from '../../App'
 
+//onChange form validation, assigning CSS to fields with errors and determining if all fields are valid for submission.
 function validate(username, email, password, cpassword) {
     return {
         username: username.length === 0,
@@ -33,18 +34,21 @@ export default class CUForm extends React.Component {
         unavailableEmails: []
     };
 
+    //Setting state with field values on  change
     change = e => {
         this.setState({
         [e.target.name]: e.target.value
         })
     };
 
-    handleBlur = (field) => (e) => {
+    //Allowing css to be applied only after a field has been touched
+    handleBlur = (field) => {
         this.setState({
           touched: { ...this.state.touched, [field]: true },
         });
       }
 
+    //Posting a new user to the DB
     onSubmit = e => {
         e.preventDefault()
         const user = {
@@ -52,13 +56,14 @@ export default class CUForm extends React.Component {
             email: this.state.email,
             password: this.state.password
         }
+        //Checking to see if username is available
         Axios.get(`${URL}/users-names-available`, {
             params: {
                 username: this.state.username
             }
         })
         .then(res => {
-            console.log(res)
+            //if username is available, check email availability
             if(res.data === true){
             (Axios.get(`${URL}/users-emails-available`, {
                 params: {
@@ -66,7 +71,7 @@ export default class CUForm extends React.Component {
                 }
             })
             .then((res) => {
-                console.log(res)
+                //if email is available, post new user
                 if(res.data === true){
                     console.log(`Email ${this.state.email} Available`)
                     Axios.post(`${URL}/users`, user)
@@ -75,6 +80,7 @@ export default class CUForm extends React.Component {
                     }).catch((error) => {
                         console.log(error)
                     });
+                    //Clearing forms
                     this.setState({
                         username: "",
                         email: "",
@@ -89,7 +95,9 @@ export default class CUForm extends React.Component {
                         }
     
                     })
+                    //Trigger redirect to sign-in form
                     this.setState({ redirect: true})
+                    //if email is unavailable, push email to array of unavailable emails to check onChange
                 } else if(res.data === false){
                     this.state.unavailableEmails.push(this.state.email)
                     this.setState({email: this.state.email})
@@ -99,6 +107,7 @@ export default class CUForm extends React.Component {
                 console.log(error)
             }))
              
+            //if username is unavailable, push username to array of unavailable names to check onChange
             } else if(res.data === false){
                 this.state.unavailableUsers.push(this.state.username)
                 this.setState({username: this.state.username})
@@ -112,13 +121,16 @@ export default class CUForm extends React.Component {
     }
 
     render(){
+        //Redirects to sign-in after successful user creation
         if (this.state.redirect) {
             return <Redirect push to={ '/' }/>
           }
-
+        
+        //Checks if each field has valid entries
         var errors = validate(this.state.username, this.state.email, this.state.password, this.state.cpassword);        
         const isEnabled = !Object.keys(errors).some(x => errors[x]);
         
+        //Checks if error css should be shown
         const showErr = (field) => {
             const hasError = errors[field];
             const shouldShow = this.state.touched[field];
@@ -126,6 +138,7 @@ export default class CUForm extends React.Component {
             return hasError ? shouldShow : false;
           };
 
+        //Checks if good css should be shown
           const showValid = (field) => {
             const shouldShow = this.state.touched[field];
 

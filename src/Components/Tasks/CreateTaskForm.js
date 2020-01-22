@@ -27,11 +27,11 @@ class CTForm extends React.Component{
             clickedButtons: [],
             unavailableTasks: [],
             doneDelete: false,
-            selectedDelete: false
+            selectedDelete: false,
+            tasksLoaded: false
             
         };
 
-        //this.clickHandler = this.clickHandler.bind(this)
         this.change = this.change.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
         this.editMenu = this.editMenu.bind(this)
@@ -62,6 +62,7 @@ class CTForm extends React.Component{
             this.setState({
                  taskCollection: res.data.data,
              });
+             this.setState({tasksLoaded: true})
         })
         .catch(function(error){
             console.log(error);
@@ -314,7 +315,7 @@ class CTForm extends React.Component{
                 />
                 <br/>
                 
-                <button disabled={this.state.name.length === 0 || (this.state.unavailableTasks.includes(this.state.name))} onClick={e => this.onSubmit(e)}>Add Task</button>
+                <button disabled={this.state.name.length === 0 || (this.state.unavailableTasks.includes(this.state.name)) || (this.state.tasksLoaded === false)} onClick={e => this.onSubmit(e)}>Add Task</button>
                 
             </form>
             <h2>{`${this.context.state.activeList}`}</h2>

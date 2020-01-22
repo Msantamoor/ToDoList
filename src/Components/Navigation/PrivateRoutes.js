@@ -6,8 +6,7 @@ import {
 
 import { AuthContext } from '../../Context/Authentication'
 
-// A wrapper for <Route> that redirects to the login
-// screen if you're not yet authenticated.
+// A wrapper for Routes that redirects to the login screen if you're not yet authenticated.
 function PrivateRoute({ children, ...rest }) {
     return (
         <AuthContext.Consumer>
