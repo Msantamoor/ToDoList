@@ -3,7 +3,7 @@ import Axios from 'axios';
 import 'react-router-dom'
 import { AuthContext } from '../../Context/Authentication'
 import { withRouter, Redirect } from 'react-router-dom';
-import {URL} from '../../App'
+import { URL } from '../../App'
 
 
 
@@ -43,12 +43,7 @@ class ETask extends React.Component{
             due: this.state.due,
             list: this.context.state.activeList
         }
-        Axios.patch(`${URL}/task`, {
-            params: {
-                id: id,
-                task: task
-            }
-        })
+        Axios.patch(`${URL}/tasks?id=${id}`, task)
         .then((res) => {
             this.setState({
                 name: "",

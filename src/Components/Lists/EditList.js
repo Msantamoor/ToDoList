@@ -36,13 +36,14 @@ class EList extends React.Component{
     //Patches the list, as well as all tasks with the list attribute so they maintain their association.
     onSubmit = e => {
         e.preventDefault()
+        const user =this.context.state.userLogged
         const id = this.props.history.location.state.id
 
         //Gets previous listname to target associated tasks
         const listname = this.props.history.location.state.name
 
         //New name for the list attribute on associated tasks
-        const taskUpdate = {
+        const task = {
             list: this.state.name
         }
 
@@ -53,14 +54,9 @@ class EList extends React.Component{
             due: this.state.due,
         }
         //Patch request for the list and associated tasks
-        Axios.patch(`${URL}/list`, {
-            params: {
-                user: this.context.state.userLogged,
-                id: id,
+        Axios.patch(`${URL}/lists?user=${user}&id=${id}&prevName=${listname}`, {
                 list: list,
-                prevName: listname,
-                nameUpdate: taskUpdate
-            }
+                task: task
         })
         .then((res) => {
             this.setState({

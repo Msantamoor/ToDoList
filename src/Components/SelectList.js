@@ -33,11 +33,8 @@ export default class SelectList extends Component {
 
   //Gets current lists from the DB, filtered by the current userLogged
   refreshLists = () => {
-    Axios.get(`${URL}/lists`, {
-        params: {
-            user: this.context.state.userLogged,
-        }
-    })
+    const user = this.context.state.userLogged
+    Axios.get(`${URL}/lists?user=${user}`)
         .then(res => {
             console.log(res)
             this.setState({ listCollection: res.data.data,
@@ -96,13 +93,7 @@ export default class SelectList extends Component {
   //Deletes a list by ID, and all tasks with that list attribute
   deleteOneList(id, listname){
     console.log(id)
-    Axios.delete(`${URL}/list`, {
-    params: {
-        id: id,
-        list: listname,
-        user: this.context.state.userLogged
-    }
-  })
+    Axios.delete(`${URL}/lists?id=${id}&list=${listname}&user=${this.context.state.userLogged}`)
     .then(res => {
       //Removes this listname from the unavailable lists for duplicate protection.
         this.state.unavailableLists.splice(this.state.unavailableLists.indexOf(id), 1);

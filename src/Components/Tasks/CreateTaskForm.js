@@ -52,12 +52,7 @@ class CTForm extends React.Component{
 
     //Gets updated tasks from the server, filtered by user and list attributes assigned on creation
     refreshTasks(){
-        Axios.get(`${URL}/tasks`, {
-            params: {
-                user: this.context.state.userLogged,
-                list: this.context.state.activeList
-            }
-        })
+        Axios.get(`${URL}/tasks?user=${this.context.state.userLogged}&list=${this.context.state.activeList}`)
         .then(res => {
             console.log(res.data)
             this.setState({
@@ -80,7 +75,7 @@ class CTForm extends React.Component{
             due: this.state.due,
             list: this.context.state.activeList
         }
-        Axios.post(`${URL}/task`, task)
+        Axios.post(`${URL}/tasks`, task)
         .then((res) => {
             console.log(res.data)
             this.setState({
@@ -148,21 +143,11 @@ class CTForm extends React.Component{
     //Patches a specific task to update its completed attribute, displaying greyed out css
     //Primes task to be deleted with the other completed tasks in bulk
     isCompleted(id){
-        Axios.get(`${URL}/tasks-completed`, {
-            params: {
-                id: id,
-                completed: "true"
-            }
-        })
+        Axios.get(`${URL}/tasks-completed?id=${id}&completed=true`)
         .then(res => {
             if(res.data === false){
                 const task = { completed: "true" }
-                Axios.patch(`${URL}/task`, {
-                params: {
-                    id: id,
-                    task: task
-                }
-            })
+                Axios.patch(`${URL}/tasks?id=${id}`, task)
             .then((res) => {
                 this.state.completedTasks.push(id)
                 this.refreshTasks()
@@ -172,12 +157,7 @@ class CTForm extends React.Component{
                 
             } else if(res.data === true){
                 const task = { completed: "false" }
-                Axios.patch(`${URL}/task`, {
-                params: {
-                    id: id,
-                    task: task
-                }
-            })
+                Axios.patch(`${URL}/tasks?id=${id}`, task)
             .then((res) => {
                 this.state.completedTasks.splice(this.state.completedTasks.indexOf(id), 1);
                 this.refreshTasks()
@@ -196,11 +176,7 @@ class CTForm extends React.Component{
     //Deletes a specific task by ID
     deleteOneTask(id){
         console.log(id)
-        Axios.delete(`${URL}/task`, {
-        params: {
-            id: id
-        }
-    })
+        Axios.delete(`${URL}/tasks?id=${id}`)
         .then(res => {
             this.state.unavailableTasks.splice(0, this.state.unavailableTasks.length)
             this.refreshTasks()
@@ -213,12 +189,7 @@ class CTForm extends React.Component{
 
     //Deletes all tasks in the list with completed: true attributes
     deleteDoneTasks(){
-        Axios.delete(`${URL}/tasks-completed`, {
-            params: {
-                user: this.context.state.userLogged,
-                list: this.context.state.activeList
-            }
-        })
+        Axios.delete(`${URL}/tasks-completed?user=${this.context.state.userLogged}&list=${this.context.state.activeList}`)
         .then(res => {
             console.log(res.data)
             this.state.unavailableTasks.splice(0, this.state.unavailableTasks.length)
@@ -233,13 +204,11 @@ class CTForm extends React.Component{
     //All specified tasks are deleted with one Mongo deleteMany function
     deleteSelectedTasks(){
         const names = this.state.clickedTaskNames
-            Axios.delete(`${URL}/tasks-selected`, {
-            params: {
-                user: this.context.state.userLogged,
-                list: this.context.state.activeList,
-                names: names
-            }
-        })
+            Axios.delete(`${URL}/tasks-selected?user=${this.context.state.userLogged}&list=${this.context.state.activeList}`, {
+                params: {
+                    names: names
+                }
+            })
             .then(res => {
                 //Clears targeted tasks from the unavailable tasks array after deletion
                 this.state.unavailableTasks.splice(0, this.state.unavailableTasks.length)

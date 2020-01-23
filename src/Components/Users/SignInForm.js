@@ -48,12 +48,7 @@ export default class SIForm extends React.Component {
     onSubmit = e => {
         e.preventDefault()
         //Pass in username and password to be checked
-        Axios.get(`${URL}/user-login`, {
-            params: {
-                username: this.state.username,
-                password: this.state.password
-            }
-        })
+        Axios.get(`${URL}/users-login?username=${this.state.username}&password=${this.state.password}`)
         .then(res => {
             console.log(res)
             //if the username and password matches, set context value authenticated, and redirect
